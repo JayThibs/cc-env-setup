@@ -200,21 +200,17 @@ ZSH_AUTOSUGGEST_USE_ASYNC=true
 ZSH_AUTOSUGGEST_HISTORY_IGNORE="cd *"
 ZSH_AUTOSUGGEST_COMPLETION_IGNORE="git *"
 
-# Key bindings for auto-suggestions
+# Accept auto-suggestion with right arrow
 bindkey '→' autosuggest-accept
-bindkey '^[[C' autosuggest-accept
-bindkey '^I' complete-word
-bindkey '^[[Z' autosuggest-accept
-bindkey '^→' forward-word
-bindkey '^[[1;5C' forward-word
+bindkey '^[[C' autosuggest-accept  # Right arrow
+bindkey '^I' complete-word         # Tab for completion
+bindkey '^[[Z' autosuggest-accept  # Shift+Tab to accept suggestion
 
-# Better history search with zsh-history-substring-search
+# Better history search with substring search plugin
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey '^P' history-substring-search-up
 bindkey '^N' history-substring-search-down
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
 
 # History
 HISTFILE="$HOME/.zsh_history"
@@ -232,6 +228,7 @@ setopt HIST_REDUCE_BLANKS
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
 zstyle ':completion:*' menu select
 zstyle ':completion:*' list-colors ''
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 
 # FZF
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
@@ -250,6 +247,7 @@ alias cc="claude code"
 alias ccnew="tmux split-window -h 'claude code'"
 alias ccvsplit="tmux split-window -h 'claude code'"
 alias cchsplit="tmux split-window -v 'claude code'"
+alias cc4="~/cc-multi.sh"
 
 # Initialize tools
 eval "$(zoxide init zsh)"
@@ -257,34 +255,21 @@ source <(fzf --zsh)
 
 # Custom functions
 
-# rl - copy absolute file paths to clipboard
+# rl: Get absolute file path and copy to clipboard
 function rl() {
-  if [ $# -eq 0 ]; then
-    realpath . | pbcopy
-    echo "Copied: $(realpath .)"
-  else
-    local paths=()
-    for arg in "$@"; do
-      if [ -e "$arg" ]; then
-        paths+=("$(realpath "$arg")")
-      else
-        echo "Warning: '$arg' does not exist" >&2
-      fi
-    done
-    
-    if [ ${#paths[@]} -gt 0 ]; then
-      # Join paths with newlines for multiple files
-      printf '%s\n' "${paths[@]}" | pbcopy
-      echo "Copied ${#paths[@]} path(s):"
-      printf '%s\n' "${paths[@]}"
-    fi
+  local file="$1"
+  if [[ -z "$file" ]]; then
+    echo "Usage: rl <file>"
+    return 1
   fi
+  local abs_path=$(realpath "$file" 2>/dev/null || echo "$PWD/$file")
+  echo "$abs_path" | pbcopy
+  echo "Copied to clipboard: $abs_path"
 }
 
-# Auto ls after cd
+# Auto cd + ls function
 function chpwd() {
-  emulate -L zsh
-  eza --icons
+  ls
 }
 
 # Powerlevel10k
@@ -293,26 +278,267 @@ ZSHRC
 
 # Create .wezterm.lua
 cat > ~/.wezterm.lua << 'WEZTERM'
+-- Claude Code Ultimate Wezterm Configuration
+
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
--- Font
+-- Font configuration
 config.font = wezterm.font('MesloLGS Nerd Font')
 config.font_size = 16.0
 
--- Appearance
+-- Window configuration
 config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.95
 config.macos_window_background_blur = 20
-config.color_scheme = 'Tokyo Night'
+
+-- Tab bar
 config.hide_tab_bar_if_only_one_tab = true
+config.tab_bar_at_bottom = false
+config.use_fancy_tab_bar = true
+
+-- Colors
+config.color_scheme = 'Tokyo Night'
+
+-- Custom color scheme (matches Powerlevel10k)
+config.colors = {
+  -- Foreground and background
+  foreground = '#c0caf5',
+  background = '#1a1b26',
+  
+  -- Cursor
+  cursor_bg = '#c0caf5',
+  cursor_fg = '#1a1b26',
+  cursor_border = '#c0caf5',
+  
+  -- Selection
+  selection_fg = '#c0caf5',
+  selection_bg = '#33467c',
+  
+  -- Normal colors
+  ansi = {
+    '#15161e', -- black
+    '#f7768e', -- red
+    '#9ece6a', -- green
+    '#e0af68', -- yellow
+    '#7aa2f7', -- blue
+    '#bb9af7', -- magenta
+    '#7dcfff', -- cyan
+    '#a9b1d6', -- white
+  },
+  
+  -- Bright colors
+  brights = {
+    '#414868', -- bright black
+    '#f7768e', -- bright red
+    '#9ece6a', -- bright green
+    '#e0af68', -- bright yellow
+    '#7aa2f7', -- bright blue
+    '#bb9af7', -- bright magenta
+    '#7dcfff', -- bright cyan
+    '#c0caf5', -- bright white
+  },
+  
+  -- Tab bar
+  tab_bar = {
+    background = '#15161e',
+    active_tab = {
+      bg_color = '#7aa2f7',
+      fg_color = '#1a1b26',
+    },
+    inactive_tab = {
+      bg_color = '#1a1b26',
+      fg_color = '#545c7e',
+    },
+    inactive_tab_hover = {
+      bg_color = '#292e42',
+      fg_color = '#7aa2f7',
+    },
+    new_tab = {
+      bg_color = '#1a1b26',
+      fg_color = '#7aa2f7',
+    },
+    new_tab_hover = {
+      bg_color = '#292e42',
+      fg_color = '#7aa2f7',
+    },
+  },
+}
+
+-- Key bindings
+config.keys = {
+  -- Natural Text Editing (like iTerm2's Natural Text Editing preset)
+  -- Word navigation
+  {
+    key = 'LeftArrow',
+    mods = 'OPT',
+    action = wezterm.action.SendKey { key = 'b', mods = 'ALT' },
+  },
+  {
+    key = 'RightArrow', 
+    mods = 'OPT',
+    action = wezterm.action.SendKey { key = 'f', mods = 'ALT' },
+  },
+  
+  -- Line navigation
+  {
+    key = 'LeftArrow',
+    mods = 'CMD',
+    action = wezterm.action.SendKey { key = 'a', mods = 'CTRL' },
+  },
+  {
+    key = 'RightArrow',
+    mods = 'CMD', 
+    action = wezterm.action.SendKey { key = 'e', mods = 'CTRL' },
+  },
+  
+  -- Delete word
+  {
+    key = 'Backspace',
+    mods = 'OPT',
+    action = wezterm.action.SendKey { key = 'w', mods = 'CTRL' },
+  },
+  
+  -- Delete line
+  {
+    key = 'Backspace',
+    mods = 'CMD',
+    action = wezterm.action.SendKey { key = 'u', mods = 'CTRL' },
+  },
+  
+  -- Split panes
+  {
+    key = 'd',
+    mods = 'CMD',
+    action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
+  },
+  {
+    key = 'd',
+    mods = 'CMD|SHIFT',
+    action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
+  },
+  
+  -- Navigate panes
+  {
+    key = 'h',
+    mods = 'CMD|ALT',
+    action = wezterm.action.ActivatePaneDirection 'Left',
+  },
+  {
+    key = 'l',
+    mods = 'CMD|ALT',
+    action = wezterm.action.ActivatePaneDirection 'Right',
+  },
+  {
+    key = 'k',
+    mods = 'CMD|ALT',
+    action = wezterm.action.ActivatePaneDirection 'Up',
+  },
+  {
+    key = 'j',
+    mods = 'CMD|ALT',
+    action = wezterm.action.ActivatePaneDirection 'Down',
+  },
+  
+  -- Resize panes
+  {
+    key = 'h',
+    mods = 'CMD|SHIFT|ALT',
+    action = wezterm.action.AdjustPaneSize { 'Left', 5 },
+  },
+  {
+    key = 'l',
+    mods = 'CMD|SHIFT|ALT',
+    action = wezterm.action.AdjustPaneSize { 'Right', 5 },
+  },
+  {
+    key = 'k',
+    mods = 'CMD|SHIFT|ALT',
+    action = wezterm.action.AdjustPaneSize { 'Up', 5 },
+  },
+  {
+    key = 'j',
+    mods = 'CMD|SHIFT|ALT',
+    action = wezterm.action.AdjustPaneSize { 'Down', 5 },
+  },
+  
+  -- Close pane
+  {
+    key = 'w',
+    mods = 'CMD',
+    action = wezterm.action.CloseCurrentPane { confirm = true },
+  },
+  
+  -- Toggle full screen
+  {
+    key = 'Enter',
+    mods = 'CMD|SHIFT',
+    action = wezterm.action.ToggleFullScreen,
+  },
+  
+  -- Copy/Paste
+  {
+    key = 'c',
+    mods = 'CMD',
+    action = wezterm.action.CopyTo 'Clipboard',
+  },
+  {
+    key = 'v',
+    mods = 'CMD',
+    action = wezterm.action.PasteFrom 'Clipboard',
+  },
+  
+  -- Clear scrollback
+  {
+    key = 'k',
+    mods = 'CMD',
+    action = wezterm.action.ClearScrollback 'ScrollbackAndViewport',
+  },
+  
+  -- Search
+  {
+    key = 'f',
+    mods = 'CMD',
+    action = wezterm.action.Search 'CurrentSelectionOrEmptyString',
+  },
+}
+
+-- Mouse bindings
+config.mouse_bindings = {
+  -- Right click paste
+  {
+    event = { Down = { streak = 1, button = 'Right' } },
+    action = wezterm.action.PasteFrom 'Clipboard',
+  },
+  
+  -- Change font size with Ctrl+Scroll
+  {
+    event = { Down = { streak = 1, button = { WheelUp = 1 } } },
+    mods = 'CTRL',
+    action = wezterm.action.IncreaseFontSize,
+  },
+  {
+    event = { Down = { streak = 1, button = { WheelDown = 1 } } },
+    mods = 'CTRL',
+    action = wezterm.action.DecreaseFontSize,
+  },
+}
 
 -- Performance
 config.max_fps = 120
 config.animation_fps = 60
+config.cursor_blink_rate = 500
 
 -- Scrollback
 config.scrollback_lines = 10000
+
+-- Bell
+config.audible_bell = "Disabled"
+config.visual_bell = {
+  fade_in_duration_ms = 75,
+  fade_out_duration_ms = 75,
+  target = 'CursorColor',
+}
 
 -- Window padding
 config.window_padding = {
@@ -322,22 +548,9 @@ config.window_padding = {
   bottom = 10,
 }
 
--- Natural text editing keybindings
-config.keys = {
-  -- Command+Left/Right for beginning/end of line
-  { key = 'LeftArrow', mods = 'CMD', action = wezterm.action.SendKey { key = 'Home' } },
-  { key = 'RightArrow', mods = 'CMD', action = wezterm.action.SendKey { key = 'End' } },
-  
-  -- Option+Left/Right for word navigation
-  { key = 'LeftArrow', mods = 'OPT', action = wezterm.action.SendKey { key = 'b', mods = 'ALT' } },
-  { key = 'RightArrow', mods = 'OPT', action = wezterm.action.SendKey { key = 'f', mods = 'ALT' } },
-  
-  -- Command+Backspace to delete to beginning of line
-  { key = 'Backspace', mods = 'CMD', action = wezterm.action.SendKey { key = 'u', mods = 'CTRL' } },
-  
-  -- Option+Backspace to delete word
-  { key = 'Backspace', mods = 'OPT', action = wezterm.action.SendKey { key = 'w', mods = 'CTRL' } },
-}
+-- Initial size
+config.initial_cols = 120
+config.initial_rows = 40
 
 return config
 WEZTERM
@@ -645,11 +858,6 @@ LAUNCHER
 
 chmod +x ~/cc-multi.sh
 success "Launcher script created at ~/cc-multi.sh"
-
-# Add alias to .zshrc
-echo "" >> ~/.zshrc
-echo "# Quick launch 4 Claude Code instances" >> ~/.zshrc
-echo "alias cc4='~/cc-multi.sh'" >> ~/.zshrc
 
 # Step 10: Set up FZF
 status "Setting up FZF key bindings..."
