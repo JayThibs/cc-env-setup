@@ -85,6 +85,7 @@ For detailed instructions, see BLOG_POST.md or SETUP_GUIDE.md.
 - **[Oh My Tmux](https://github.com/gpakosz/.tmux)** - Self-contained tmux configuration
 
 ### Further Reading
+- **[Tips and Code for Empirical Research Workflows](https://www.lesswrong.com/posts/6P8GYb4AjtPXx6LLB/tips-and-code-for-empirical-research-workflows)** - Comprehensive terminal productivity guide
 - **[John's Dotfiles](https://github.com/jplhughes/dotfiles)** - Advanced dotfiles configuration example
 
 ## Video Tutorials & Inspiration

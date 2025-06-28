@@ -555,6 +555,7 @@ That's it! You now have the same powerful setup as the one-line installer provid
 - **[This Setup on GitHub](https://github.com/JayThibs/cc-env-setup)** - Complete source code and installer
 
 ### Inspiration & Further Reading
+- **[Tips and Code for Empirical Research Workflows](https://www.lesswrong.com/posts/6P8GYb4AjtPXx6LLB/tips-and-code-for-empirical-research-workflows)** - Comprehensive guide to terminal productivity
 - **[John's Dotfiles](https://github.com/jplhughes/dotfiles)** - Advanced dotfiles configuration for automation
 
 ## Video Tutorials & Real-World Examples
