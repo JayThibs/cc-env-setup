@@ -51,12 +51,20 @@ fi
 # Step 1: Install Homebrew if needed
 if ! command -v brew &> /dev/null; then
     status "Installing Homebrew..."
+    echo "This may take a few minutes and will ask for your password..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     
     # Add Homebrew to PATH for Apple Silicon
     if [[ -f "/opt/homebrew/bin/brew" ]]; then
         echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
         eval "$(/opt/homebrew/bin/brew shellenv)"
+        success "Homebrew installed (Apple Silicon)"
+    elif [[ -f "/usr/local/bin/brew" ]]; then
+        # Intel Mac
+        eval "$(/usr/local/bin/brew shellenv)"
+        success "Homebrew installed (Intel)"
+    else
+        error "Homebrew installation failed. Please install manually from https://brew.sh"
     fi
 else
     success "Homebrew already installed"
@@ -87,6 +95,9 @@ brew "ripgrep"
 brew "fd"
 brew "bat"
 brew "jq"
+
+# Neovim
+brew "neovim"
 
 # Applications
 cask "wezterm"
@@ -276,6 +287,8 @@ cat > ~/.tmux.conf.local << 'TMUX'
 # General settings
 set -g history-limit 50000
 set -g mouse on
+set -g set-clipboard on
+set -g mode-keys vi
 
 # Change prefix to Ctrl-a
 set -gu prefix2
@@ -284,24 +297,64 @@ unbind C-b
 set -g prefix C-a
 bind C-a send-prefix
 
-# Pane splits for Claude Code
-bind | split-window -h -c '#{pane_current_path}' #!important
-bind - split-window -v -c '#{pane_current_path}' #!important
+# Faster escape time for vim
+set -g escape-time 10
 
-# Easy navigation between Claude Code instances
+# Start windows and panes at 1, not 0
+set -g base-index 1
+setw -g pane-base-index 1
+
+# Renumber windows when one is closed
+set-option -g renumber-windows on
+
+# Pane splits
+bind | split-window -h -c '#{pane_current_path}' #!important
+bind h split-window -h -c '#{pane_current_path}' #!important
+bind - split-window -v -c '#{pane_current_path}' #!important
+bind v split-window -v -c '#{pane_current_path}' #!important
+
+# Reload config
+bind r source-file ~/.tmux.conf \; display-message "Config reloaded!" #!important
+
+# Easy navigation between panes
 bind -n C-h select-pane -L #!important
 bind -n C-j select-pane -D #!important
 bind -n C-k select-pane -U #!important
 bind -n C-l select-pane -R #!important
 
-# Resize panes
+# Copy mode navigation
+bind-key -T copy-mode-vi 'C-h' select-pane -L #!important
+bind-key -T copy-mode-vi 'C-j' select-pane -D #!important
+bind-key -T copy-mode-vi 'C-k' select-pane -U #!important
+bind-key -T copy-mode-vi 'C-l' select-pane -R #!important
+
+# Resize panes with H/J/K/L
 bind -r H resize-pane -L 5 #!important
 bind -r J resize-pane -D 5 #!important
 bind -r K resize-pane -U 5 #!important
 bind -r L resize-pane -R 5 #!important
 
+# Alternative resize with u/i/o/p
+bind u resize-pane -U 5 #!important
+bind p resize-pane -D 5 #!important
+bind i resize-pane -L 5 #!important
+bind o resize-pane -R 5 #!important
+
 # Maximize pane
 bind m resize-pane -Z #!important
+
+# Copy mode vim bindings
+bind -T copy-mode-vi v send-keys -X begin-selection #!important
+bind -T copy-mode-vi y send-keys -X copy-selection-and-cancel #!important
+
+# Double click to select word
+set -g word-separators ""
+bind-key -n DoubleClick1Pane \
+    select-pane \; \
+    copy-mode -M \; \
+    send-keys -X select-word \; \
+    run-shell "sleep .4s" \; \
+    send-keys -X copy-selection-and-cancel #!important
 
 # Quick Claude Code launchers
 bind C new-window -n "Claude Code" "claude code" #!important
@@ -311,9 +364,16 @@ bind S split-window -v "claude code" #!important
 # Settings
 tmux_conf_new_window_retain_current_path=true
 tmux_conf_new_pane_retain_current_path=true
-set -g mode-keys vi
 
-# Theme
+# Use current shell
+set-option -g default-shell "${SHELL}"
+set -g default-command "${SHELL}"
+
+# Terminal settings for proper colors
+set -g default-terminal "xterm-256color"
+set -ga terminal-overrides ",xterm-256color*:Tc"
+
+# Theme colors (Tokyo Night)
 tmux_conf_theme_colour_1="#15161e"
 tmux_conf_theme_colour_2="#1a1b26"
 tmux_conf_theme_colour_3="#565f89"
@@ -322,7 +382,11 @@ tmux_conf_theme_colour_5="#e0af68"
 tmux_conf_theme_colour_6="#15161e"
 tmux_conf_theme_colour_7="#c0caf5"
 
+# Enable clipboard
 tmux_conf_copy_to_os_clipboard=true
+
+# Sane scrolling
+set -g terminal-overrides 'xterm*:smcup@:rmcup@'
 TMUX
 
 # Create minimal .p10k.zsh

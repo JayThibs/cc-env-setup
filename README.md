@@ -26,9 +26,10 @@ The installer creates these configuration files in your home directory:
 
 ## Prerequisites
 
-- macOS 14+
+- macOS 14+ (Intel or Apple Silicon)
 - Claude Code already installed
 - Internet connection
+- Homebrew (will be installed automatically if missing)
 
 ## What This Setup Provides
 
@@ -40,12 +41,25 @@ The installer creates these configuration files in your home directory:
 
 ## Key Shortcuts
 
-- `Ctrl+A` - tmux prefix (press first for tmux commands)
-- `Ctrl+A |` - Split vertically
-- `Ctrl+A -` - Split horizontally
-- `Ctrl+H/J/K/L` - Navigate between panes (no prefix needed!)
+### tmux (prefix: `Ctrl+A`)
+- `Ctrl+A |` or `Ctrl+A h` - Split vertically
+- `Ctrl+A -` or `Ctrl+A v` - Split horizontally
+- `Ctrl+A r` - Reload tmux config
+- `Ctrl+A m` - Maximize/minimize pane
+- `Ctrl+A H/J/K/L` - Resize panes (hold to repeat)
+- `Ctrl+A u/i/o/p` - Alternative resize (up/left/right/down)
+- `Ctrl+H/J/K/L` - Navigate between panes (no prefix!)
+
+### Copy Mode
+- `Ctrl+A [` - Enter copy mode
+- `v` - Start selection (in copy mode)
+- `y` - Copy selection (in copy mode)
+- Double-click - Select and copy word
+
+### Quick Launchers
 - `cc` - Launch Claude Code
 - `cc4` - Launch 4 Claude Code instances in a grid
+- `nvim` or `vim` - Open neovim editor
 
 For detailed instructions, see BLOG_POST.md or SETUP_GUIDE.md.
 
