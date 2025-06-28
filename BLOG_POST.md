@@ -292,6 +292,67 @@ Now that you have this powerful setup:
 4. **Customize**: Make it yours with themes and shortcuts
 5. **Share**: Help others discover the power of multiple Claude Code instances
 
+## Advanced: Building Self-Spawning AI Teams with Git Worktrees
+
+Once you're comfortable with multiple Claude Code instances, you can take it to the next level with git worktrees. This advanced technique lets you create a team of AI coders that work on different features simultaneously without conflicts.
+
+### The Problem with Multiple AI Coders
+
+When multiple Claude Code instances work on the same codebase, they can overwrite each other's changes. Git worktrees solve this by creating isolated copies of your repository that can be merged back when complete.
+
+### Setting Up AI Teams with Worktrees
+
+1. **Create a tasks file** (`tasks.md`) listing what needs to be done:
+   ```markdown
+   ## Tasks
+   - [ ] Create light theme - branch: feature/light-theme
+   - [ ] Add filter options - branch: feature/filters
+   - [ ] Implement search - branch: feature/search
+   ```
+
+2. **Use git worktrees** to create isolated environments:
+   ```bash
+   git worktree add -b feature/light-theme ./worktrees/light-theme
+   git worktree add -b feature/filters ./worktrees/filters
+   ```
+
+3. **Launch Claude Code in each worktree**:
+   ```bash
+   # In tmux, create a new window for each feature
+   tmux new-window -n "light-theme" -c "./worktrees/light-theme" "claude code"
+   tmux new-window -n "filters" -c "./worktrees/filters" "claude code"
+   ```
+
+### Automated Agent Spawning
+
+For even more automation, create a Claude Code command that:
+1. Reads your tasks file
+2. Creates worktrees automatically
+3. Spawns tmux sessions with Claude Code for each task
+4. Updates task status as work progresses
+
+Example workflow:
+```bash
+# View all your AI agents working
+tmux list-sessions
+
+# Check on a specific agent
+tmux attach -t feature/light-theme
+
+# When features are complete, merge them back
+git worktree remove worktrees/light-theme
+git merge feature/light-theme
+```
+
+### Best Practices for AI Teams
+
+1. **Task Organization**: Group related tasks that should be handled by the same agent
+2. **Status Tracking**: Have agents update task status (claimed, in-progress, needs-review)
+3. **Monitoring**: Use tmux's split-window to watch multiple agents simultaneously
+4. **Intervention**: Be ready to answer questions or provide guidance when agents need help
+
+This workflow turns you into an AI team manager, orchestrating multiple Claude Code instances to work on your project in parallel, dramatically increasing productivity while maintaining code quality.
+
 ## Final Thoughts
 
 Congratulations! You've just leveled up from terminal beginner to multi-instance Claude Code power user. Your new setup isn't just about running multiple AI assistants - it's about transforming how you work with AI-powered development.
