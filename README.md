@@ -35,11 +35,19 @@ The installer creates these configuration files in your home directory:
 
 1. **Multiple Claude Code instances** - Run 2, 4, or 8 AI assistants in split panes
 2. **Intelligent auto-suggestions** - Terminal predicts commands as you type (press → to accept)
-3. **Beautiful Wezterm terminal** - GPU-accelerated with Tokyo Night theme
+3. **Beautiful Wezterm terminal** - GPU-accelerated with Tokyo Night theme & natural text editing
 4. **Persistent sessions** - Your work survives terminal restarts
 5. **Quick shortcuts** - `cc` to launch Claude Code, `cc4` for 4 instances
+6. **Enhanced navigation** - Substring history search, automatic directory listing
+7. **Productivity tools** - Copy file paths with `rl`, fuzzy search everything
 
 ## Key Shortcuts
+
+### WezTerm Natural Text Editing
+- `Cmd+Left/Right` - Jump to beginning/end of line
+- `Option+Left/Right` - Navigate by word
+- `Cmd+Backspace` - Delete to beginning of line
+- `Option+Backspace` - Delete word backward
 
 ### tmux (prefix: `Ctrl+A`)
 - `Ctrl+A |` or `Ctrl+A h` - Split vertically
@@ -60,6 +68,9 @@ The installer creates these configuration files in your home directory:
 - `cc` - Launch Claude Code
 - `cc4` - Launch 4 Claude Code instances in a grid
 - `nvim` or `vim` - Open neovim editor
+- `rl <file>` - Copy absolute file path to clipboard
+
+**Note:** When you change directories using `cd`, the terminal automatically lists the directory contents - no need to type `ls`!
 
 For detailed instructions, see BLOG_POST.md or SETUP_GUIDE.md.
 

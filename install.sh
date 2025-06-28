@@ -145,6 +145,12 @@ if [ ! -d "$ZSH_CUSTOM/plugins/zsh-completions" ]; then
         $ZSH_CUSTOM/plugins/zsh-completions
 fi
 
+# History substring search
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-history-substring-search" ]; then
+    git clone https://github.com/zsh-users/zsh-history-substring-search \
+        $ZSH_CUSTOM/plugins/zsh-history-substring-search
+fi
+
 success "Zsh plugins installed"
 
 # Step 7: Install Oh My Tmux
@@ -179,6 +185,7 @@ plugins=(
   zsh-autosuggestions
   zsh-syntax-highlighting
   zsh-completions
+  zsh-history-substring-search
   fzf
   tmux
 )
@@ -201,9 +208,13 @@ bindkey '^[[Z' autosuggest-accept
 bindkey '^→' forward-word
 bindkey '^[[1;5C' forward-word
 
-# Better history search
+# Better history search with zsh-history-substring-search
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
+bindkey '^P' history-substring-search-up
+bindkey '^N' history-substring-search-down
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
 
 # History
 HISTFILE="$HOME/.zsh_history"
@@ -244,6 +255,38 @@ alias cchsplit="tmux split-window -v 'claude code'"
 eval "$(zoxide init zsh)"
 source <(fzf --zsh)
 
+# Custom functions
+
+# rl - copy absolute file paths to clipboard
+function rl() {
+  if [ $# -eq 0 ]; then
+    realpath . | pbcopy
+    echo "Copied: $(realpath .)"
+  else
+    local paths=()
+    for arg in "$@"; do
+      if [ -e "$arg" ]; then
+        paths+=("$(realpath "$arg")")
+      else
+        echo "Warning: '$arg' does not exist" >&2
+      fi
+    done
+    
+    if [ ${#paths[@]} -gt 0 ]; then
+      # Join paths with newlines for multiple files
+      printf '%s\n' "${paths[@]}" | pbcopy
+      echo "Copied ${#paths[@]} path(s):"
+      printf '%s\n' "${paths[@]}"
+    fi
+  fi
+}
+
+# Auto ls after cd
+function chpwd() {
+  emulate -L zsh
+  eza --icons
+}
+
 # Powerlevel10k
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 ZSHRC
@@ -277,6 +320,23 @@ config.window_padding = {
   right = 10,
   top = 10,
   bottom = 10,
+}
+
+-- Natural text editing keybindings
+config.keys = {
+  -- Command+Left/Right for beginning/end of line
+  { key = 'LeftArrow', mods = 'CMD', action = wezterm.action.SendKey { key = 'Home' } },
+  { key = 'RightArrow', mods = 'CMD', action = wezterm.action.SendKey { key = 'End' } },
+  
+  -- Option+Left/Right for word navigation
+  { key = 'LeftArrow', mods = 'OPT', action = wezterm.action.SendKey { key = 'b', mods = 'ALT' } },
+  { key = 'RightArrow', mods = 'OPT', action = wezterm.action.SendKey { key = 'f', mods = 'ALT' } },
+  
+  -- Command+Backspace to delete to beginning of line
+  { key = 'Backspace', mods = 'CMD', action = wezterm.action.SendKey { key = 'u', mods = 'CTRL' } },
+  
+  -- Option+Backspace to delete word
+  { key = 'Backspace', mods = 'OPT', action = wezterm.action.SendKey { key = 'w', mods = 'CTRL' } },
 }
 
 return config

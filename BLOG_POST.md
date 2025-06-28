@@ -15,7 +15,10 @@ Here's what your setup will look like:
 3. **Beautiful Modern Terminal**: A GPU-accelerated terminal with smooth animations and a gorgeous Tokyo Night theme
 4. **Session Persistence**: Your Claude Code sessions survive terminal restarts - pick up exactly where you left off
 5. **Lightning-Fast Navigation**: Jump between your AI assistants with simple keyboard shortcuts
-6. **Neovim Editor**: A powerful, pre-configured text editor with plugins, syntax highlighting, and the same Tokyo Night theme
+6. **Natural Text Editing**: Navigate and edit text naturally in WezTerm with familiar shortcuts (Option+Arrow for word jumping, Cmd+Arrow for line start/end)
+7. **Smart Directory Features**: Automatic directory listing when you change directories, and the `rl` command to quickly re-list files
+8. **Enhanced History Search**: Substring-based history search that finds commands containing your search terms anywhere
+9. **Neovim Editor**: A powerful, pre-configured text editor with plugins, syntax highlighting, and the same Tokyo Night theme
 
 ## Prerequisites
 
@@ -62,8 +65,16 @@ Here are the essential shortcuts you'll use every day:
 - `→` (Right Arrow) - Accept the gray suggestion
 - `Ctrl+→` - Accept just one word
 - `Tab` - Show completion menu
-- `↑/↓` - Search through your command history
+- `↑/↓` - Search through your command history with substring matching
 - `Esc` - Clear the current suggestion
+
+**WezTerm Natural Text Editing:**
+- `Option+←/→` - Jump word by word (like in any text editor)
+- `Cmd+←/→` - Jump to start/end of line
+- `Option+Delete` - Delete word backward
+- `Option+Fn+Delete` - Delete word forward
+- `Cmd+Delete` - Delete to beginning of line
+- `Cmd+Fn+Delete` - Delete to end of line
 
 **For Managing Multiple Claude Code Instances:**
 - `Ctrl+A` - Your "prefix" key (press this first for most commands)
@@ -77,6 +88,11 @@ Here are the essential shortcuts you'll use every day:
 - `cc` - Launch Claude Code
 - `ccnew` - Split and launch new Claude Code
 - `cc4` - Launch 4 Claude Code instances in a grid
+
+**Smart Directory Commands:**
+- `cd` automatically shows directory contents (via auto-ls)
+- `rl` - Re-list current directory with beautiful icons
+- `z dirname` - Smart jump to any directory you've visited
 
 **Neovim Shortcuts:**
 - `nvim` or `vim` - Open neovim
@@ -184,7 +200,7 @@ tmux attach
 All your Claude Code instances will be exactly where you left them.
 
 ### 4. The Power of History
-The more commands you use, the better auto-suggestions become. After a week of use, you'll be flying through commands as your terminal predicts exactly what you want.
+The more commands you use, the better auto-suggestions become. After a week of use, you'll be flying through commands as your terminal predicts exactly what you want. Plus, with enhanced substring history search, you can find any command by typing any part of it - no need to remember the exact beginning!
 
 ### 5. Quick Directory Navigation
 After visiting directories a few times, jump to them instantly:
@@ -256,6 +272,7 @@ alias myproject="cd ~/Documents/myproject && cc4"
 - `Ctrl+T` - Fuzzy find files
 - `Ctrl+R` - Search command history
 - `ls` - List files (with beautiful icons!)
+- `rl` - Re-list current directory (quick refresh)
 - `cat filename` - View file with syntax highlighting
 
 ### Pane Management

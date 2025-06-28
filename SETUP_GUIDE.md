@@ -114,6 +114,10 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
 # Better completions
 git clone https://github.com/zsh-users/zsh-completions \
     ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
+
+# History substring search
+git clone https://github.com/zsh-users/zsh-history-substring-search \
+    ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
 ```
 
 ### 7. Install Oh My Tmux
@@ -144,6 +148,7 @@ plugins=(
   zsh-autosuggestions
   zsh-syntax-highlighting
   zsh-completions
+  zsh-history-substring-search
   fzf
   tmux
 )
@@ -258,6 +263,25 @@ config.hide_tab_bar_if_only_one_tab = true
 config.max_fps = 120
 config.animation_fps = 60
 config.cursor_blink_rate = 500
+
+-- Natural text editing keybindings
+config.keys = {
+  -- Word navigation
+  { key = 'LeftArrow', mods = 'OPT', action = wezterm.action.SendString '\x1b[1;5D' },
+  { key = 'RightArrow', mods = 'OPT', action = wezterm.action.SendString '\x1b[1;5C' },
+  
+  -- Line navigation
+  { key = 'LeftArrow', mods = 'CMD', action = wezterm.action.SendString '\x01' },
+  { key = 'RightArrow', mods = 'CMD', action = wezterm.action.SendString '\x05' },
+  
+  -- Word deletion
+  { key = 'Backspace', mods = 'OPT', action = wezterm.action.SendString '\x17' },
+  { key = 'Delete', mods = 'OPT', action = wezterm.action.SendString '\x1b[3;5~' },
+  
+  -- Line deletion
+  { key = 'Backspace', mods = 'CMD', action = wezterm.action.SendString '\x15' },
+  { key = 'Delete', mods = 'CMD', action = wezterm.action.SendString '\x0b' },
+}
 
 -- Scrollback
 config.scrollback_lines = 10000
@@ -466,6 +490,18 @@ Run these commands to verify everything is working:
 # Test auto-suggestions
 echo "test" # Type 'ec' and you should see 'echo "test"' in gray
 
+# Test history substring search
+echo "substring test" # Then type 'test' and press up arrow - should find this
+
+# Test natural text editing in terminal
+# Type a long command, then use Option+Arrow to jump words
+
+# Test auto-ls
+cd /tmp # Should automatically list directory contents
+
+# Test rl command
+rl # Should re-list current directory with icons
+
 # Test tmux
 tmux new -s test
 # Press Ctrl+A | to split
@@ -473,7 +509,7 @@ tmux new -s test
 
 # Test fuzzy finding
 Ctrl+T # Should open file finder
-Ctrl+R # Should open history search
+Ctrl+R # Should open history search with substring matching
 
 # Test aliases
 cc # Should launch Claude Code
@@ -486,12 +522,16 @@ ls # Should show icons
 - [ ] Wezterm opens without font errors
 - [ ] Commands appear in gray as you type
 - [ ] Right arrow accepts suggestions
+- [ ] Option+Arrow jumps by word in terminal
+- [ ] Cmd+Arrow goes to line start/end
+- [ ] cd automatically shows directory contents
+- [ ] rl command re-lists directory
+- [ ] History search finds substrings anywhere
 - [ ] Ctrl+A works as tmux prefix
 - [ ] Can split panes with Ctrl+A | and -
 - [ ] Can navigate with Ctrl+H/J/K/L
 - [ ] `cc` launches Claude Code
 - [ ] Powerlevel10k shows git status
-- [ ] History search works with arrows
 
 ## 💡 Pro Tips
 
