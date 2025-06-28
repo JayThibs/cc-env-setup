@@ -1,149 +1,63 @@
-# The Ultimate Guide to Running Multiple Claude Code Instances Like a Pro
+# Transform Your Terminal into an AI-Powered Development Powerhouse
 
-## Transform Your Terminal into an AI-Powered Development Powerhouse
+## The Terminal Renaissance
 
-Ever wished you could have multiple AI assistants working on different parts of your project simultaneously? Imagine having one Claude Code instance refactoring your frontend, another writing tests, a third documenting your API, and a fourth researching best practices - all at the same time, in a beautiful, organized terminal setup.
+Something remarkable is happening in the world of software development. While many developers have moved to graphical IDEs, a growing number are rediscovering the power of terminal-based workflows—especially now that AI coding assistants have entered the scene. 
 
-This guide will take you from terminal novice to power user in about 15 minutes. By the end, you'll have a stunning terminal setup that makes running multiple Claude Code instances as easy as pressing a few keys.
+Imagine having multiple AI assistants working on different parts of your project simultaneously, all orchestrated from your terminal. Picture yourself jumping between directories with a few keystrokes, reviewing code changes while your tests run in the background, and never losing your work even when your connection drops. This isn't just about nostalgia for command-line interfaces—it's about building a development environment that's faster, more flexible, and more powerful than ever before.
 
-## What You'll Get
+## Why Terminal Workflows Matter More Than Ever
 
-Here's what your setup will look like:
+The rise of AI coding tools like Claude Code, Aider, and Cursor has created new opportunities for terminal-based development. As one developer put it while demonstrating their setup: "I can have one Claude Code instance refactoring my frontend, another writing tests, a third documenting my API, and a fourth researching best practices—all at the same time."
 
-1. **Multiple Claude Code Instances**: Run 2, 4, or even 8 AI assistants simultaneously
-2. **Intelligent Auto-Predictions**: As you type commands, your terminal will predict what you want to type next (shown in gray text - just press → to accept!)
-3. **Beautiful Modern Terminal**: A GPU-accelerated terminal with smooth animations and a gorgeous Tokyo Night theme
-4. **Session Persistence**: Your Claude Code sessions survive terminal restarts - pick up exactly where you left off
-5. **Lightning-Fast Navigation**: Jump between your AI assistants with simple keyboard shortcuts
-6. **Natural Text Editing**: Navigate and edit text naturally in WezTerm with familiar shortcuts (Option+Arrow for word jumping, Cmd+Arrow for line start/end)
-7. **Smart Directory Features**: Automatic directory listing when you change directories, and the `rl` command to quickly re-list files
-8. **Enhanced History Search**: Substring-based history search that finds commands containing your search terms anywhere
-9. **Neovim Editor**: A powerful, pre-configured text editor with plugins, syntax highlighting, and the same Tokyo Night theme
+But even beyond AI integration, modern terminal workflows solve real problems:
 
-## Prerequisites
+- **Remote Development**: When you're SSH'd into a GPU cluster or cloud instance, a good terminal setup is the difference between frustration and flow
+- **Persistence**: Your work survives disconnections, crashes, and restarts
+- **Speed**: Once configured, terminal navigation is faster than clicking through GUI menus
+- **Composability**: Terminal tools work together in ways graphical applications often can't
 
-All you need is:
-- A Mac (macOS 14 or newer recommended)
-- About 15 minutes
-- Basic ability to copy and paste commands
+## Building Your Foundation: The Modern Terminal
 
-That's it! No programming experience required.
+### Choosing Your Terminal Emulator
 
-## The Magic One-Line Installation
+Your terminal emulator is your window into the command line world. While the default terminals on most systems work, modern alternatives offer features that significantly improve your experience:
 
-Open your current terminal (you can find it by pressing Cmd+Space and typing "Terminal"), then copy and paste this single command:
+- **macOS**: iTerm2 remains the gold standard, offering features like natural text editing (jump words with Option+Arrow) and GPU acceleration
+- **Cross-platform**: WezTerm has gained popularity for its speed and extensive customization options
+- **Linux**: Kitty offers excellent performance and ligature support
 
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/JayThibs/cc-env-setup/main/install.sh)
-```
+The key is finding one that supports true colors, has good font rendering, and allows customization of keyboard shortcuts.
 
-Press Enter and watch the magic happen! The installer will:
-- Set up all the tools you need
-- Configure everything automatically
-- Create shortcuts for launching multiple Claude Code instances
-- Make your terminal beautiful and powerful
+### From Bash to Zsh: A Quality of Life Upgrade
 
-## Understanding Your New Superpowers
+While bash is ubiquitous, Zsh offers a dramatically improved experience. Think of it as bash with superpowers—better completion, theming, and a vast ecosystem of plugins. The Oh My Zsh framework makes configuration painless and adds features like:
 
-### The Auto-Suggestion Magic ✨
+- **Intelligent Auto-suggestions**: As you type, your terminal suggests commands based on your history. Just press the right arrow to accept
+- **Visual Git Integration**: See your repository status right in your prompt
+- **Smarter Navigation**: Tab completion that actually understands what you're trying to do
 
-This is the feature that will blow your mind. As you start typing commands, your terminal will show predictions in gray text based on your command history and available options. 
+One developer shared: "The auto-suggestions learn from your habits—use them constantly. After a week of use, you'll be flying through commands as your terminal predicts exactly what you want."
 
-**Try this:**
-1. Type `cd ` (with a space after)
-2. You'll see gray text suggesting directories you've visited before
-3. Press the → arrow key to accept the suggestion
-4. Or press Tab to see all possible options
+## The Game-Changer: Terminal Multiplexing with tmux
 
-The more you use your terminal, the smarter it gets!
+If you've ever lost work because your SSH connection dropped, or wished you could see your code and tests side-by-side in the terminal, tmux is your solution. It's a terminal multiplexer—think of it as a window manager for your terminal.
 
-### Your New Keyboard Shortcuts 🎹
+### Why tmux Matters
 
-Here are the essential shortcuts you'll use every day:
+"tmux is literally an abbreviation for terminal multiplexer," explains one developer in their tutorial. "It basically allows you to create multiple sessions of terminal running in the background which you can attach to anytime and see what's going on in there."
 
-**For Auto-Suggestions:**
-- `→` (Right Arrow) - Accept the gray suggestion
-- `Ctrl+→` - Accept just one word
-- `Tab` - Show completion menu
-- `↑/↓` - Search through your command history with substring matching
-- `Esc` - Clear the current suggestion
+The real power comes from:
 
-**WezTerm Natural Text Editing:**
-- `Option+←/→` - Jump word by word (like in any text editor)
-- `Cmd+←/→` - Jump to start/end of line
-- `Option+Delete` - Delete word backward
-- `Option+Fn+Delete` - Delete word forward
-- `Cmd+Delete` - Delete to beginning of line
-- `Cmd+Fn+Delete` - Delete to end of line
+1. **Persistent Sessions**: Your work continues even if you disconnect
+2. **Organized Workspaces**: Keep different projects in different sessions
+3. **Split Panes**: View multiple things simultaneously
+4. **Background Processes**: Run long tasks without keeping a terminal open
 
-**For Managing Multiple Claude Code Instances:**
-- `Ctrl+A` - Your "prefix" key (press this first for most commands)
-- `Ctrl+A |` - Split screen vertically (side by side)
-- `Ctrl+A -` - Split screen horizontally (top and bottom)
-- `Ctrl+H/J/K/L` - Navigate between Claude Code instances (no prefix needed!)
-- `Ctrl+A m` - Maximize current pane (press again to restore)
-- `Ctrl+A d` - Detach from session (it keeps running!)
+### Real-World Example: AI Team Management
 
-**Quick Claude Code Launchers:**
-- `cc` - Launch Claude Code
-- `ccnew` - Split and launch new Claude Code
-- `cc4` - Launch 4 Claude Code instances in a grid
+One fascinating use case involves managing multiple AI coding assistants. A developer demonstrated using tmux with git worktrees to create isolated environments for different features:
 
-**Smart Directory Commands:**
-- `cd` automatically shows directory contents (via auto-ls)
-- `rl` - Re-list current directory with beautiful icons
-- `z dirname` - Smart jump to any directory you've visited
-
-**Neovim Shortcuts:**
-- `nvim` or `vim` - Open neovim
-- `Space+e` - Toggle file explorer (in neovim)
-- `Space+f` - Find files (in neovim)
-- `Space+g` - Search in files with ripgrep (in neovim)
-- `Space+b` - Switch between open buffers (in neovim)
-
-## Your First Multi-Instance Session
-
-Let's create your first multi-instance Claude Code setup:
-
-### Method 1: The Quick 4-Instance Grid
-
-Simply type:
-```bash
-cc4
-```
-
-Boom! You now have 4 Claude Code instances arranged in a perfect grid. Each can work on different tasks simultaneously.
-
-### Method 2: Build Your Own Layout
-
-1. Start tmux (your terminal multiplexer):
-   ```bash
-   tmux new -s myproject
-   ```
-
-2. Launch your first Claude Code:
-   ```bash
-   cc
-   ```
-
-3. Split the screen vertically (Ctrl+A, then |):
-   - Press `Ctrl+A`
-   - Release, then press `|`
-   - Another Claude Code will launch automatically!
-
-4. Navigate between them:
-   - Press `Ctrl+H` to go left
-   - Press `Ctrl+L` to go right
-   - No need to press Ctrl+A first!
-
-5. Add more instances:
-   - Navigate to any pane
-   - Press `Ctrl+A -` to split horizontally
-   - Press `Ctrl+A |` to split vertically
-
-## Real-World Workflows
-
-### Workflow 1: Full-Stack Development
 ```
 ┌─────────────────┬─────────────────┐
 │ Claude Code #1  │ Claude Code #2  │
@@ -154,436 +68,185 @@ Boom! You now have 4 Claude Code instances arranged in a perfect grid. Each can 
 └─────────────────┴─────────────────┘
 ```
 
-Launch with `cc4`, then assign each instance a different task:
-- Top-left: "Help me refactor my React components"
-- Top-right: "Create REST API endpoints for user management"
-- Bottom-left: "Write comprehensive tests for the auth module"
-- Bottom-right: "Generate API documentation in OpenAPI format"
+"This makes it a very good candidate to handle all our AI coding agents running," they explained. Each AI assistant works in its own isolated git worktree, preventing conflicts while allowing parallel development.
 
-### Workflow 2: Code Review and Refactoring
-1. Main pane: Claude Code reviewing your code
-2. Right pane: Claude Code implementing suggested changes
-3. Bottom pane: Claude Code writing tests for the changes
+## Accelerating Your Workflow
 
-### Workflow 3: Learning and Experimentation
-- Pane 1: Claude Code explaining concepts
-- Pane 2: Claude Code writing example code
-- Pane 3: Claude Code creating exercises
-- Pane 4: Your regular terminal for running code
+### Smart Aliases and Functions
 
-## Pro Tips for Maximum Productivity
+The difference between a novice and an expert terminal user often comes down to customization. Building a collection of aliases for your most common commands can save hours:
 
-### 1. Name Your Sessions
-Instead of generic names, use descriptive session names:
-```bash
-tmux new -s frontend-refactor
-tmux new -s api-development
-tmux new -s bug-fixes
-```
+- A simple `rl` command that copies absolute file paths to your clipboard
+- Automatically showing directory contents after changing directories
+- Short aliases for git commands you use dozens of times daily
 
-### 2. Quick Session Switching
-List all sessions:
-```bash
-tmux ls
-```
+"I found this workflow super good and it is actually useful believe it or not," noted one developer after setting up their automated task system.
 
-Attach to a specific session:
-```bash
-tmux attach -t frontend-refactor
-```
+### Fuzzy Finding: Your Navigation Superpower
 
-### 3. Persistent Workspaces
-Your tmux sessions survive terminal restarts! Close your terminal, come back tomorrow, and run:
-```bash
-tmux attach
-```
-All your Claude Code instances will be exactly where you left them.
+Tools like fzf (fuzzy finder) transform how you navigate. Instead of typing exact paths or remembering precise command histories, you type a few characters and fzf finds what you want. It works for:
 
-### 4. The Power of History
-The more commands you use, the better auto-suggestions become. After a week of use, you'll be flying through commands as your terminal predicts exactly what you want. Plus, with enhanced substring history search, you can find any command by typing any part of it - no need to remember the exact beginning!
+- Command history (Ctrl+R with fzf is magical)
+- File navigation
+- Directory jumping
+- Git branches
 
-### 5. Quick Directory Navigation
-After visiting directories a few times, jump to them instantly:
-```bash
-z myproject     # Jumps to ~/Documents/projects/myproject
-z frontend      # Jumps to the most recent 'frontend' directory
-```
+## The Learning Curve and Payoff
 
-## Troubleshooting Common Issues
+"There's a big part of shift left in it," observed one developer discussing their terminal-based AI workflow. "You want to use more of these tools that convince you that the thing it's produced isn't bad—more static analysis, more tests, more coverage."
 
-### "The font doesn't look right"
-Run this command:
-```bash
-p10k configure
-```
-Follow the wizard - it will help you set up the perfect look.
+The initial setup takes time, but the payoff is substantial. Developers report:
 
-### "Auto-suggestions aren't working"
-1. Restart your terminal completely
-2. Type a command you've used before
-3. Start typing it again - you should see gray text
-4. If not, run: `exec zsh`
+- Dramatically faster navigation and file manipulation
+- Better focus without constant context switching
+- More reliable remote development
+- Easier automation of repetitive tasks
 
-### "I accidentally closed my Claude Code sessions"
-No worries! They're still running. Just type:
-```bash
-tmux attach
-```
+## Getting Started Without Overwhelm
 
-### "Keyboard shortcuts aren't working"
-Remember:
-- The prefix is `Ctrl+A` (not `Ctrl+B`)
-- For splits: Press `Ctrl+A`, release, then press `|` or `-`
-- For navigation: Just press `Ctrl+H/J/K/L` (no prefix needed)
+The key to adopting these tools is gradual integration:
 
-## Customizing Your Setup
+1. **Start with one upgrade**: Perhaps install Zsh with Oh My Zsh
+2. **Add auto-suggestions**: This single plugin will change how you work
+3. **Learn tmux basics**: Just sessions and splits to start
+4. **Build aliases slowly**: Add them for commands you run repeatedly
+5. **Explore advanced features**: As you get comfortable
 
-### Change the Color Theme
-Edit `~/.wezterm.lua` and change this line:
-```lua
-config.color_scheme = 'Tokyo Night'
-```
-To any theme from [Wezterm's theme gallery](https://wezfurlong.org/wezterm/colorschemes/index.html).
+Remember, you don't need to adopt everything at once. Even small improvements compound over time.
 
-### Adjust Font Size
-In the same file, change:
-```lua
-config.font_size = 16.0
-```
+## The Future of Terminal Development
 
-### Create Custom Shortcuts
-Add to your `~/.zshrc`:
-```bash
-alias myproject="cd ~/Documents/myproject && cc4"
-```
+As AI tools become more sophisticated, terminal-based workflows are experiencing a renaissance. The ability to orchestrate multiple AI assistants, maintain persistent sessions, and navigate with superhuman speed makes the terminal an increasingly attractive option.
 
-## The Complete Command Reference
+"It's indispensable for everyday programming now," one developer concluded after showing how they use Claude Code in tmux for everything from boilerplate generation to complex refactoring.
 
-### Essential Commands
-- `cc` - Launch Claude Code
-- `cc4` - Launch 4-instance grid
-- `tmux new -s name` - Create named session
-- `tmux attach` - Reattach to session
-- `tmux ls` - List all sessions
-- `exit` - Close current pane
-
-### Navigation Commands
-- `z dirname` - Jump to directory
-- `Ctrl+T` - Fuzzy find files
-- `Ctrl+R` - Search command history
-- `ls` - List files (with beautiful icons!)
-- `rl` - Re-list current directory (quick refresh)
-- `cat filename` - View file with syntax highlighting
-
-### Pane Management
-- `Ctrl+A |` - Split vertically
-- `Ctrl+A -` - Split horizontally  
-- `Ctrl+A x` - Close current pane
-- `Ctrl+A z` - Zoom/unzoom pane
-- `Ctrl+A Space` - Cycle through layouts
-
-## What's Next?
-
-Now that you have this powerful setup:
-
-1. **Practice the Basics**: Spend 5 minutes creating and navigating between panes
-2. **Build Muscle Memory**: Use the auto-suggestions for every command
-3. **Create Your First Multi-Instance Project**: Try the 4-instance setup on a real project
-4. **Customize**: Make it yours with themes and shortcuts
-5. **Share**: Help others discover the power of multiple Claude Code instances
-
-## Advanced: Building Self-Spawning AI Teams with Git Worktrees
-
-Once you're comfortable with multiple Claude Code instances, you can take it to the next level with git worktrees. This advanced technique lets you create a team of AI coders that work on different features simultaneously without conflicts.
-
-### The Problem with Multiple AI Coders
-
-When multiple Claude Code instances work on the same codebase, they can overwrite each other's changes. Git worktrees solve this by creating isolated copies of your repository that can be merged back when complete.
-
-### Setting Up AI Teams with Worktrees
-
-1. **Create a tasks file** (`tasks.md`) listing what needs to be done:
-   ```markdown
-   ## Tasks
-   - [ ] Create light theme - branch: feature/light-theme
-   - [ ] Add filter options - branch: feature/filters
-   - [ ] Implement search - branch: feature/search
-   ```
-
-2. **Use git worktrees** to create isolated environments:
-   ```bash
-   git worktree add -b feature/light-theme ./worktrees/light-theme
-   git worktree add -b feature/filters ./worktrees/filters
-   ```
-
-3. **Launch Claude Code in each worktree**:
-   ```bash
-   # In tmux, create a new window for each feature
-   tmux new-window -n "light-theme" -c "./worktrees/light-theme" "claude code"
-   tmux new-window -n "filters" -c "./worktrees/filters" "claude code"
-   ```
-
-### Automated Agent Spawning
-
-For even more automation, create a Claude Code command that:
-1. Reads your tasks file
-2. Creates worktrees automatically
-3. Spawns tmux sessions with Claude Code for each task
-4. Updates task status as work progresses
-
-Example workflow:
-```bash
-# View all your AI agents working
-tmux list-sessions
-
-# Check on a specific agent
-tmux attach -t feature/light-theme
-
-# When features are complete, merge them back
-git worktree remove worktrees/light-theme
-git merge feature/light-theme
-```
-
-### Best Practices for AI Teams
-
-1. **Task Organization**: Group related tasks that should be handled by the same agent
-2. **Status Tracking**: Have agents update task status (claimed, in-progress, needs-review)
-3. **Monitoring**: Use tmux's split-window to watch multiple agents simultaneously
-4. **Intervention**: Be ready to answer questions or provide guidance when agents need help
-
-This workflow turns you into an AI team manager, orchestrating multiple Claude Code instances to work on your project in parallel, dramatically increasing productivity while maintaining code quality.
-
-## Final Thoughts
-
-Congratulations! You've just leveled up from terminal beginner to multi-instance Claude Code power user. Your new setup isn't just about running multiple AI assistants - it's about transforming how you work with AI-powered development.
-
-Remember:
-- **Auto-suggestions** learn from your habits - use them constantly
-- **Sessions persist** - don't be afraid to close your terminal
-- **Practice makes perfect** - the shortcuts will become second nature
-- **Multiple instances** multiply your productivity
-
-Welcome to the future of AI-assisted development. Now go build something amazing with your army of Claude Code assistants!
+Whether you're managing cloud infrastructure, training models, or building applications, a well-configured terminal environment isn't just about efficiency—it's about creating a workspace that gets out of your way and lets you focus on what matters: solving problems and building great software.
 
 ---
 
-*Tip: Save this guide locally for reference:*
+## Appendix: Technical Configuration Guide
+
+### Essential Key Bindings and Commands
+
+#### Terminal Navigation (iTerm2 with Natural Text Editing)
+- `Option + ←/→` - Jump between words
+- `Cmd + ←/→` - Jump to line start/end
+- `Option + Delete` - Delete word backward
+- Increase key repeat rate in System Preferences for faster navigation
+
+#### Zsh with Oh My Zsh
+Essential plugins to install:
+- `zsh-autosuggestions` - Accept suggestions with `→` arrow
+- `zsh-syntax-highlighting` - Valid commands in green, invalid in red
+- `zsh-completions` - Enhanced tab completion
+- `zsh-history-substring-search` - Type any part of a command, use `↑/↓` to search
+
+#### tmux Key Bindings (Common Configuration)
+- `Ctrl+A` - Prefix key (remapped from default `Ctrl+B`)
+- `Prefix + |` - Split pane vertically
+- `Prefix + -` - Split pane horizontally
+- `Prefix + h/j/k/l` - Navigate between panes
+- `Prefix + H/J/K/L` - Resize panes
+- `Prefix + d` - Detach from session
+- `Prefix + s` - List sessions
+- `Prefix + c` - Create new window
+- `Prefix + n/p` - Next/previous window
+
+#### Useful Aliases
 ```bash
-curl -o ~/Desktop/claude-code-guide.md https://raw.githubusercontent.com/JayThibs/cc-env-setup/main/BLOG_POST.md
+# Git shortcuts
+alias gs="git status"
+alias gc="git commit -m"
+alias gp="git push"
+alias gl="git pull"
+
+# Directory navigation
+alias ll="ls -la"
+alias ..="cd .."
+alias ...="cd ../.."
+
+# Copy file path to clipboard (macOS)
+rl() {
+  echo -n "$PWD/$1" | pbcopy
+  echo "Path copied: $PWD/$1"
+}
+
+# Auto-ls after cd
+cd() {
+  builtin cd "$@" && ls
+}
 ```
 
-## Manual Step-by-Step Setup (If One-Line Install Doesn't Work)
+### Installation Commands
 
-### Step 1: Install Homebrew (Package Manager)
-
-Homebrew is like an app store for command-line tools. We'll use it to install everything else.
-
-1. Open Terminal (press `Cmd+Space`, type "Terminal", press Enter)
-2. Copy and paste this command:
-
+#### macOS Setup
 ```bash
+# Install Homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
 
-3. Press Enter and follow the prompts (you'll need to enter your password)
-4. After installation, you might see instructions to add Homebrew to your PATH. If so, run the commands it shows you.
+# Install essential tools
+brew install tmux zsh fzf ripgrep
 
-### Step 2: Configure macOS for Better Productivity
-
-Let's make your keyboard repeat faster so you can navigate code more quickly:
-
-```bash
-# Make keys repeat faster when held down
-defaults write -g InitialKeyRepeat -float 10.0
-defaults write -g KeyRepeat -float 1.0
-```
-
-**Note**: You'll need to log out and back in for these changes to take effect.
-
-### Step 3: Install All Required Tools
-
-Create a file with all the tools we need and install them at once:
-
-```bash
-cat > /tmp/Brewfile << 'EOF'
-tap "homebrew/cask-fonts"
-
-# Core tools
-brew "git"
-brew "zsh"
-brew "tmux"
-brew "neovim"
-
-# Modern CLI tools
-brew "fzf"
-brew "eza"
-brew "zoxide"
-brew "ripgrep"
-brew "fd"
-brew "bat"
-brew "jq"
-
-# Terminal and font
-cask "wezterm"
-cask "font-meslo-lg-nerd-font"
-EOF
-
-brew bundle --file=/tmp/Brewfile
-```
-
-### Step 4: Install Oh My Zsh and Plugins
-
-```bash
 # Install Oh My Zsh
-RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-# Install Powerlevel10k theme
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
-    ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-
-# Install plugins
-git clone https://github.com/zsh-users/zsh-autosuggestions \
-    ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
-    ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-
-git clone https://github.com/zsh-users/zsh-completions \
-    ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
+# Install Zsh plugins
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
-### Step 5: Install Oh My Tmux
+### Configuration Files
 
+#### Basic ~/.zshrc additions
 ```bash
-cd ~
-git clone --single-branch https://github.com/gpakosz/.tmux.git
-ln -sf .tmux/.tmux.conf
-cd -
+# Add to plugins array
+plugins=(
+  git
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  fzf
+)
+
+# Increase history
+HISTSIZE=100000
+SAVEHIST=100000
+
+# Better history search
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
 ```
 
-### Step 6: Download and Apply Configuration Files
-
-Get all the configuration files from the repository:
-
+#### Basic ~/.tmux.conf
 ```bash
-# Clone the setup repository
-git clone https://github.com/JayThibs/cc-env-setup.git ~/cc-env-setup
+# Remap prefix to Ctrl-a
+unbind C-b
+set-option -g prefix C-a
+bind-key C-a send-prefix
 
-# Copy configuration files
-cp ~/cc-env-setup/configs/.zshrc ~/
-cp ~/cc-env-setup/configs/.wezterm.lua ~/
-cp ~/cc-env-setup/configs/.tmux.conf.local ~/
-cp ~/cc-env-setup/configs/.p10k.zsh ~/
+# Split panes using | and -
+bind | split-window -h
+bind - split-window -v
+
+# Enable mouse mode
+set -g mouse on
+
+# Don't rename windows automatically
+set-option -g allow-rename off
+
+# Increase history
+set -g history-limit 10000
 ```
 
-### Step 7: Set Up FZF and Change Default Shell
+### Resources and References
 
-```bash
-# Install FZF key bindings
-$(brew --prefix)/opt/fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
+- [Oh My Zsh](https://ohmyz.sh/) - Zsh configuration framework
+- [tmux Plugin Manager](https://github.com/tmux-plugins/tpm) - Manage tmux plugins
+- [fzf](https://github.com/junegunn/fzf) - Command-line fuzzy finder
+- [Powerlevel10k](https://github.com/romkatv/powerlevel10k) - Popular Zsh theme
+- [Example dotfiles](https://github.com/jplhughes/dotfiles) - Complete configuration example
 
-# Change default shell to zsh
-sudo sh -c "echo $(which zsh) >> /etc/shells"
-chsh -s $(which zsh)
-```
-
-### Step 8: Create the Multi-Instance Launcher
-
-```bash
-# Create the cc4 launcher script
-cat > ~/cc-multi.sh << 'EOF'
-#!/bin/bash
-# Launch 4 Claude Code instances in a 2x2 grid
-
-SESSION="claude-multi"
-
-# Kill existing session if it exists
-tmux kill-session -t $SESSION 2>/dev/null
-
-# Create new session with 4 panes
-tmux new-session -d -s $SESSION -n 'Claude Code'
-
-# Launch first Claude Code (top-left)
-tmux send-keys -t $SESSION:0 'claude code' C-m
-
-# Split vertically (top-right)
-tmux split-window -h -t $SESSION:0
-tmux send-keys -t $SESSION:0 'claude code' C-m
-
-# Select first pane and split horizontally (bottom-left)
-tmux select-pane -t $SESSION:0.0
-tmux split-window -v -t $SESSION:0
-tmux send-keys -t $SESSION:0 'claude code' C-m
-
-# Select second pane and split horizontally (bottom-right)
-tmux select-pane -t $SESSION:0.2
-tmux split-window -v -t $SESSION:0
-tmux send-keys -t $SESSION:0 'claude code' C-m
-
-# Balance panes and attach
-tmux select-layout -t $SESSION:0 tiled
-tmux attach-session -t $SESSION
-EOF
-
-chmod +x ~/cc-multi.sh
-
-# Create alias for cc4
-echo "alias cc4='~/cc-multi.sh'" >> ~/.zshrc
-```
-
-### Step 9: Final Steps
-
-1. **Close Terminal completely**
-2. **Open Wezterm** (press Cmd+Space, type "wezterm", press Enter)
-3. **Configure Powerlevel10k**: The configuration wizard will start automatically. Choose your preferred style.
-4. **Set up Claude Code**: Run `claude code /terminal-setup` for multi-line support
-5. **Log out and back in** for keyboard settings to take effect
-
-That's it! You now have the same powerful setup as the one-line installer provides.
-
-## Resources & Links
-
-### Tools Used in This Setup
-- **[tmux](https://formulae.brew.sh/formula/tmux)** - Terminal multiplexer for managing sessions
-- **[WezTerm](https://wezterm.org/install/macos.html)** - GPU-accelerated terminal emulator
-- **[fzf](https://github.com/junegunn/fzf)** - Command-line fuzzy finder
-- **[Powerlevel10k](https://github.com/romkatv/powerlevel10k)** - Beautiful and fast Zsh theme
-- **[Oh My Zsh](https://ohmyz.sh/)** - Framework for managing Zsh configuration
-- **[Oh My Tmux](https://github.com/gpakosz/.tmux)** - Self-contained tmux configuration
-
-### Project Repository
-- **[This Setup on GitHub](https://github.com/JayThibs/cc-env-setup)** - Complete source code and installer
-
-### Inspiration & Further Reading
-- **[Tips and Code for Empirical Research Workflows](https://www.lesswrong.com/posts/6P8GYb4AjtPXx6LLB/tips-and-code-for-empirical-research-workflows)** - Comprehensive guide to terminal productivity
-- **[John's Dotfiles](https://github.com/jplhughes/dotfiles)** - Advanced dotfiles configuration for automation
-
-## Video Tutorials & Real-World Examples
-
-Want to see this setup in action? Check out these excellent videos that showcase similar workflows:
-
-### 1. [How I Use Wezterm & Zsh For An Amazing Terminal Setup](https://www.youtube.com/watch?v=TTgQV21X0SQ)
-Learn about Wezterm configuration and why it's such a great terminal emulator for modern development.
-
-### 2. [Claude Code + T-Mux + Worktrees: Self-Spawning AI Coder Team](https://www.youtube.com/watch?v=bWKHPelgNgs)
-This video demonstrates an advanced technique using git worktrees to have multiple AI coders working on different features simultaneously without conflicts. The creator shows how to:
-- Use a task management system for AI coders
-- Create git worktrees for isolated development
-- Launch multiple Claude Code instances in tmux sessions
-- Coordinate work across multiple AI assistants
-
-### 3. [Exploring Coding Efficiency: Tmux and Claude Code for Ray Tracing](https://www.youtube.com/watch?v=qCW1n79Thgo)
-Watch a real-world example of using tmux with Claude Code to build a ray tracer in Rust. The video shows:
-- Running Claude Code in tmux panes alongside code editors
-- Using test coverage to verify AI-generated code
-- Managing complex projects with multiple tmux panes
-- The benefits of terminal-based AI coding workflows
-
-### 4. [How I Use Tmux With Neovim For An Awesome Dev Workflow](https://www.youtube.com/watch?v=U-omALWIBos)
-A comprehensive guide to setting up tmux with neovim, showing:
-- Tmux plugin manager (TPM) setup
-- Vim-tmux navigator for seamless pane switching
-- Custom key bindings for productivity
-- Session persistence across restarts
-
-These videos perfectly complement this guide and show the incredible power of combining terminal multiplexers with AI coding assistants!
+For those who want to dive deeper, the video tutorials referenced in this post demonstrate:
+- Running multiple Claude Code instances in tmux
+- Using git worktrees for isolated AI agent development
+- Building complex projects entirely through AI assistance
+- Integrating terminal workflows with modern development practices
