@@ -11,7 +11,7 @@ This repository contains everything needed to set up a beautiful terminal enviro
 ## Quick Start
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/jacquesthibodeau/cc-env-setup/main/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/JayThibs/cc-env-setup/main/install.sh)
 ```
 
 ## What Gets Installed

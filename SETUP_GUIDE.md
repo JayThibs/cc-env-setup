@@ -38,7 +38,7 @@ This document contains EVERYTHING needed to set up the ultimate Claude Code mult
 
 ```bash
 # For a fresh macOS system, run:
-bash <(curl -fsSL https://raw.githubusercontent.com/jacquesthibodeau/cc-env-setup/main/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/JayThibs/cc-env-setup/main/install.sh)
 ```
 
 ## 📝 Step-by-Step Manual Installation

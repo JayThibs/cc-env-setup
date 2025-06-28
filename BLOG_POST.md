@@ -30,7 +30,7 @@ That's it! No programming experience required.
 Open your current terminal (you can find it by pressing Cmd+Space and typing "Terminal"), then copy and paste this single command:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/jacquesthibodeau/cc-env-setup/main/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/JayThibs/cc-env-setup/main/install.sh)
 ```
 
 Press Enter and watch the magic happen! The installer will:
@@ -283,7 +283,7 @@ Welcome to the future of AI-assisted development. Now go build something amazing
 
 *Tip: Save this guide locally for reference:*
 ```bash
-curl -o ~/Desktop/claude-code-guide.md https://raw.githubusercontent.com/jacquesthibodeau/cc-env-setup/main/BLOG_POST.md
+curl -o ~/Desktop/claude-code-guide.md https://raw.githubusercontent.com/JayThibs/cc-env-setup/main/BLOG_POST.md
 ```
 
 ## Manual Step-by-Step Setup (If One-Line Install Doesn't Work)
@@ -381,7 +381,7 @@ Get all the configuration files from the repository:
 
 ```bash
 # Clone the setup repository
-git clone https://github.com/jacquesthibodeau/cc-env-setup.git ~/cc-env-setup
+git clone https://github.com/JayThibs/cc-env-setup.git ~/cc-env-setup
 
 # Copy configuration files
 cp ~/cc-env-setup/configs/.zshrc ~/
