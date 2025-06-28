@@ -541,6 +541,22 @@ echo "alias cc4='~/cc-multi.sh'" >> ~/.zshrc
 
 That's it! You now have the same powerful setup as the one-line installer provides.
 
+## Resources & Links
+
+### Tools Used in This Setup
+- **[tmux](https://formulae.brew.sh/formula/tmux)** - Terminal multiplexer for managing sessions
+- **[WezTerm](https://wezterm.org/install/macos.html)** - GPU-accelerated terminal emulator
+- **[fzf](https://github.com/junegunn/fzf)** - Command-line fuzzy finder
+- **[Powerlevel10k](https://github.com/romkatv/powerlevel10k)** - Beautiful and fast Zsh theme
+- **[Oh My Zsh](https://ohmyz.sh/)** - Framework for managing Zsh configuration
+- **[Oh My Tmux](https://github.com/gpakosz/.tmux)** - Self-contained tmux configuration
+
+### Project Repository
+- **[This Setup on GitHub](https://github.com/JayThibs/cc-env-setup)** - Complete source code and installer
+
+### Inspiration & Further Reading
+- **[John's Dotfiles](https://github.com/jplhughes/dotfiles)** - Advanced dotfiles configuration for automation
+
 ## Video Tutorials & Real-World Examples
 
 Want to see this setup in action? Check out these excellent videos that showcase similar workflows:

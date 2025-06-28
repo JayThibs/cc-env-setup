@@ -74,6 +74,19 @@ The installer creates these configuration files in your home directory:
 
 For detailed instructions, see BLOG_POST.md or SETUP_GUIDE.md.
 
+## Resources & Links
+
+### Tools Used
+- **[tmux](https://formulae.brew.sh/formula/tmux)** - Terminal multiplexer for managing sessions
+- **[WezTerm](https://wezterm.org/install/macos.html)** - GPU-accelerated terminal emulator  
+- **[fzf](https://github.com/junegunn/fzf)** - Command-line fuzzy finder
+- **[Powerlevel10k](https://github.com/romkatv/powerlevel10k)** - Beautiful and fast Zsh theme
+- **[Oh My Zsh](https://ohmyz.sh/)** - Framework for managing Zsh configuration
+- **[Oh My Tmux](https://github.com/gpakosz/.tmux)** - Self-contained tmux configuration
+
+### Further Reading
+- **[John's Dotfiles](https://github.com/jplhughes/dotfiles)** - Advanced dotfiles configuration example
+
 ## Video Tutorials & Inspiration
 
 These videos showcase similar setups and demonstrate the power of tmux + AI coding:
