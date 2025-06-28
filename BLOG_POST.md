@@ -15,6 +15,7 @@ Here's what your setup will look like:
 3. **Beautiful Modern Terminal**: A GPU-accelerated terminal with smooth animations and a gorgeous Tokyo Night theme
 4. **Session Persistence**: Your Claude Code sessions survive terminal restarts - pick up exactly where you left off
 5. **Lightning-Fast Navigation**: Jump between your AI assistants with simple keyboard shortcuts
+6. **Neovim Editor**: A powerful, pre-configured text editor with plugins, syntax highlighting, and the same Tokyo Night theme
 
 ## Prerequisites
 
@@ -76,6 +77,13 @@ Here are the essential shortcuts you'll use every day:
 - `cc` - Launch Claude Code
 - `ccnew` - Split and launch new Claude Code
 - `cc4` - Launch 4 Claude Code instances in a grid
+
+**Neovim Shortcuts:**
+- `nvim` or `vim` - Open neovim
+- `Space+e` - Toggle file explorer (in neovim)
+- `Space+f` - Find files (in neovim)
+- `Space+g` - Search in files with ripgrep (in neovim)
+- `Space+b` - Switch between open buffers (in neovim)
 
 ## Your First Multi-Instance Session
 
@@ -454,3 +462,33 @@ echo "alias cc4='~/cc-multi.sh'" >> ~/.zshrc
 5. **Log out and back in** for keyboard settings to take effect
 
 That's it! You now have the same powerful setup as the one-line installer provides.
+
+## Video Tutorials & Real-World Examples
+
+Want to see this setup in action? Check out these excellent videos that showcase similar workflows:
+
+### 1. [How I Use Wezterm & Zsh For An Amazing Terminal Setup](https://www.youtube.com/watch?v=TTgQV21X0SQ)
+Learn about Wezterm configuration and why it's such a great terminal emulator for modern development.
+
+### 2. [Claude Code + T-Mux + Worktrees: Self-Spawning AI Coder Team](https://www.youtube.com/watch?v=bWKHPelgNgs)
+This video demonstrates an advanced technique using git worktrees to have multiple AI coders working on different features simultaneously without conflicts. The creator shows how to:
+- Use a task management system for AI coders
+- Create git worktrees for isolated development
+- Launch multiple Claude Code instances in tmux sessions
+- Coordinate work across multiple AI assistants
+
+### 3. [Exploring Coding Efficiency: Tmux and Claude Code for Ray Tracing](https://www.youtube.com/watch?v=qCW1n79Thgo)
+Watch a real-world example of using tmux with Claude Code to build a ray tracer in Rust. The video shows:
+- Running Claude Code in tmux panes alongside code editors
+- Using test coverage to verify AI-generated code
+- Managing complex projects with multiple tmux panes
+- The benefits of terminal-based AI coding workflows
+
+### 4. [How I Use Tmux With Neovim For An Awesome Dev Workflow](https://www.youtube.com/watch?v=U-omALWIBos)
+A comprehensive guide to setting up tmux with neovim, showing:
+- Tmux plugin manager (TPM) setup
+- Vim-tmux navigator for seamless pane switching
+- Custom key bindings for productivity
+- Session persistence across restarts
+
+These videos perfectly complement this guide and show the incredible power of combining terminal multiplexers with AI coding assistants!

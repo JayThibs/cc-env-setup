@@ -337,6 +337,150 @@ typeset -g POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX='%F{cyan}❯%f '
 typeset -g POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 P10K
 
+# Create neovim configuration directory
+mkdir -p ~/.config/nvim
+
+# Create init.vim for neovim
+cat > ~/.config/nvim/init.vim << 'NVIM'
+" Basic Settings
+set number                      " Show line numbers
+set relativenumber              " Show relative line numbers
+set tabstop=2                   " Tab width
+set shiftwidth=2                " Indent width
+set expandtab                   " Use spaces instead of tabs
+set smartindent                 " Smart indenting
+set wrap                        " Wrap lines
+set ignorecase                  " Case insensitive search
+set smartcase                   " Case sensitive if uppercase
+set termguicolors               " True color support
+set scrolloff=8                 " Keep 8 lines above/below cursor
+set signcolumn=yes              " Always show sign column
+set updatetime=50               " Faster completion
+set colorcolumn=80              " Show column at 80 characters
+set clipboard=unnamedplus       " Use system clipboard
+set mouse=a                     " Enable mouse
+
+" Install vim-plug if not installed
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" Plugins
+call plug#begin('~/.config/nvim/plugged')
+
+" Color scheme
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+
+" File explorer
+Plug 'preservim/nerdtree'
+
+" Status line
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'nvim-tree/nvim-web-devicons'
+
+" Fuzzy finder
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" Git integration
+Plug 'tpope/vim-fugitive'
+Plug 'lewis6991/gitsigns.nvim'
+
+" Syntax highlighting
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+" Auto pairs
+Plug 'jiangmiao/auto-pairs'
+
+" Comment plugin
+Plug 'tpope/vim-commentary'
+
+" Tmux navigator
+Plug 'christoomey/vim-tmux-navigator'
+
+" Surround
+Plug 'tpope/vim-surround'
+
+call plug#end()
+
+" Color scheme
+colorscheme tokyonight-night
+
+" Key mappings
+let mapleader = " "
+
+" NERDTree
+nnoremap <leader>e :NERDTreeToggle<CR>
+
+" FZF
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>g :Rg<CR>
+nnoremap <leader>b :Buffers<CR>
+
+" Better window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Resize with arrows
+nnoremap <C-Up> :resize -2<CR>
+nnoremap <C-Down> :resize +2<CR>
+nnoremap <C-Left> :vertical resize -2<CR>
+nnoremap <C-Right> :vertical resize +2<CR>
+
+" Navigate buffers
+nnoremap <S-l> :bnext<CR>
+nnoremap <S-h> :bprevious<CR>
+
+" Move text up and down
+vnoremap J :move '>+1<CR>gv=gv
+vnoremap K :move '<-2<CR>gv=gv
+
+" Better indenting
+vnoremap < <gv
+vnoremap > >gv
+
+" Save with Ctrl+S
+nnoremap <C-s> :w<CR>
+inoremap <C-s> <Esc>:w<CR>a
+
+" Quit with leader+q
+nnoremap <leader>q :q<CR>
+
+" Auto commands
+augroup highlight_yank
+    autocmd!
+    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 40})
+augroup END
+
+" Lua configuration for plugins
+lua << EOF
+-- Lualine
+require('lualine').setup {
+  options = {
+    theme = 'tokyonight'
+  }
+}
+
+-- Gitsigns
+require('gitsigns').setup()
+
+-- Treesitter
+require('nvim-treesitter.configs').setup {
+  ensure_installed = { "bash", "python", "javascript", "typescript", "rust", "go", "lua", "vim" },
+  highlight = {
+    enable = true,
+  },
+  indent = {
+    enable = true,
+  },
+}
+EOF
+NVIM
+
 success "Configuration files created"
 
 # Step 9: Create quick launcher script
@@ -404,16 +548,24 @@ echo -e "${YELLOW}Next Steps:${NC}"
 echo "1. Close this terminal completely"
 echo "2. Open Wezterm (Cmd+Space, type 'wezterm')"
 echo "3. The Powerlevel10k wizard will start - choose your style"
-echo "4. Run: claude code /terminal-setup (for multi-line support)"
+echo "4. Run: nvim (first time will install plugins automatically)"
+echo "5. Run: claude code /terminal-setup (for multi-line support)"
 echo ""
 echo -e "${YELLOW}Quick Start:${NC}"
 echo "• Start tmux: tmux new -s main"
 echo "• Split for new Claude Code: Ctrl+A |"
 echo "• Navigate between panes: Ctrl+H/J/K/L"
 echo "• Launch 4 instances at once: ~/cc-multi.sh"
+echo "• Open neovim: nvim (or vim)"
+echo ""
+echo -e "${YELLOW}Key Shortcuts:${NC}"
+echo "• tmux prefix: Ctrl+A"
+echo "• neovim leader: Space"
+echo "• File explorer in nvim: Space+e"
+echo "• Find files in nvim: Space+f"
 echo ""
 echo -e "${YELLOW}Remember:${NC}"
-echo "• Prefix key is Ctrl+A (not Ctrl+B)"
 echo "• Log out and back in for keyboard settings"
+echo "• First nvim launch installs plugins (be patient)"
 echo ""
-echo "Enjoy your multi-instance Claude Code setup! 🚀"
+echo "Enjoy your multi-instance Claude Code setup with neovim! 🚀"
