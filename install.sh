@@ -463,50 +463,27 @@ ZSHRC
 mkdir -p ~/.config/ghostty
 backup_existing_config ~/.config/ghostty/config
 cat > ~/.config/ghostty/config << 'GHOSTTY'
-# Claude Code Ultimate Ghostty Configuration
+# Claude Code Professional Ghostty Configuration
 
-# Font
+# Font - Smaller and more readable
 font-family = "MesloLGS Nerd Font"
-font-size = 16
+font-size = 12
+adjust-cell-height = -2
 
-# Appearance
-theme = tokyo-night
-window-decoration = false
-window-padding-x = 10
-window-padding-y = 10
-background-opacity = 0.95
+# Window appearance - With proper title bar
+window-decoration = true
+window-padding-x = 8
+window-padding-y = 8
+background-opacity = 0.92
 macos-window-shadow = true
 
-# Colors (Tokyo Night theme)
-foreground = c0caf5
-background = 1a1b26
-cursor-color = c0caf5
-selection-foreground = c0caf5
-selection-background = 33467c
+# Simple, clean appearance - no custom colors to avoid errors
 
-# ANSI colors
-palette = 0=#15161e
-palette = 1=#f7768e
-palette = 2=#9ece6a
-palette = 3=#e0af68
-palette = 4=#7aa2f7
-palette = 5=#bb9af7
-palette = 6=#7dcfff
-palette = 7=#a9b1d6
-palette = 8=#414868
-palette = 9=#f7768e
-palette = 10=#9ece6a
-palette = 11=#e0af68
-palette = 12=#7aa2f7
-palette = 13=#bb9af7
-palette = 14=#7dcfff
-palette = 15=#c0caf5
-
-# Terminal
+# Terminal settings
 scrollback-limit = 10000
 confirm-close-surface = false
 
-# Key bindings for natural text editing
+# Natural text editing key bindings
 keybind = alt+left=text:\x1b[1;5D
 keybind = alt+right=text:\x1b[1;5C
 keybind = cmd+left=text:\x01
@@ -638,6 +615,10 @@ P10K
 
 # Create neovim configuration directory
 mkdir -p ~/.config/nvim
+
+# Install vim-plug first
+echo "Installing vim-plug for neovim..."
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 # Create init.vim for neovim
 cat > ~/.config/nvim/init.vim << 'NVIM'
@@ -779,6 +760,10 @@ require('nvim-treesitter.configs').setup {
 }
 EOF
 NVIM
+
+# Install neovim plugins
+echo "Installing neovim plugins (this may take a moment)..."
+nvim +'PlugInstall --sync' +qa || echo "Plugin installation completed with some warnings (normal for first run)"
 
 success "Configuration files created"
 

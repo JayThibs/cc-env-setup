@@ -8,7 +8,7 @@ This document contains EVERYTHING needed to set up the ultimate Claude Code mult
 
 1. **Multiple Claude Code Instances**: Run several AI assistants simultaneously in split panes
 2. **Intelligent Auto-Suggestions**: Commands appear in gray as you type - press → to accept
-3. **Beautiful Terminal**: Ultra-fast Ghostty terminal with Tokyo Night theme
+3. **Beautiful Terminal**: Ultra-fast Ghostty terminal with clean dark theme
 4. **Session Management**: tmux for persistent sessions that survive restarts
 5. **Smart Navigation**: Jump between directories, search files, and navigate history effortlessly
 6. **Unlimited History**: Never lose a command with 999 million line history
@@ -309,50 +309,27 @@ ZSHRC_EOF
 ```bash
 mkdir -p ~/.config/ghostty
 cat > ~/.config/ghostty/config << 'GHOSTTY_EOF'
-# Claude Code Ultimate Ghostty Configuration
+# Claude Code Professional Ghostty Configuration
 
-# Font
+# Font - Smaller and more readable
 font-family = "MesloLGS Nerd Font"
-font-size = 16
+font-size = 12
+adjust-cell-height = -2
 
-# Appearance
-theme = tokyo-night
-window-decoration = false
-window-padding-x = 10
-window-padding-y = 10
-background-opacity = 0.95
+# Window appearance - With proper title bar
+window-decoration = true
+window-padding-x = 8
+window-padding-y = 8
+background-opacity = 0.92
 macos-window-shadow = true
 
-# Colors (Tokyo Night theme)
-foreground = c0caf5
-background = 1a1b26
-cursor-color = c0caf5
-selection-foreground = c0caf5
-selection-background = 33467c
+# Simple, clean appearance - no custom colors to avoid errors
 
-# ANSI colors
-palette = 0=#15161e
-palette = 1=#f7768e
-palette = 2=#9ece6a
-palette = 3=#e0af68
-palette = 4=#7aa2f7
-palette = 5=#bb9af7
-palette = 6=#7dcfff
-palette = 7=#a9b1d6
-palette = 8=#414868
-palette = 9=#f7768e
-palette = 10=#9ece6a
-palette = 11=#e0af68
-palette = 12=#7aa2f7
-palette = 13=#bb9af7
-palette = 14=#7dcfff
-palette = 15=#c0caf5
-
-# Terminal
+# Terminal settings
 scrollback-limit = 10000
 confirm-close-surface = false
 
-# Key bindings for natural text editing
+# Natural text editing key bindings
 keybind = alt+left=text:\x1b[1;5D
 keybind = alt+right=text:\x1b[1;5C
 keybind = cmd+left=text:\x01
@@ -473,7 +450,16 @@ chmod +x ~/cc-multi.sh
 $(brew --prefix)/opt/fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
 ```
 
-### 11. Install Ghostty
+### 11. Install Neovim Plugins
+```bash
+# Install vim-plug first
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+# Install plugins
+nvim +'PlugInstall --sync' +qa
+```
+
+### 12. Install Ghostty
 ```bash
 # Option 1: Official method (recommended)
 # Visit https://ghostty.org/ and download the .dmg
@@ -485,12 +471,12 @@ brew install --cask ghostty
 # Option 3: Let the install script try both automatically
 ```
 
-### 12. Configure Claude Code for Multi-line Support
+### 13. Configure Claude Code for Multi-line Support
 ```bash
 claude code /terminal-setup
 ```
 
-### 13. Change Default Shell to ZSH
+### 14. Change Default Shell to ZSH
 ```bash
 # Add zsh to allowed shells
 sudo sh -c "echo $(which zsh) >> /etc/shells"
@@ -667,4 +653,4 @@ This completes the ENTIRE modern setup with Ghostty, unlimited history, and fzf 
 - 🎯 **Smart Aliases** - Productivity-focused git, tmux, and CLI shortcuts
 - 🔄 **Automated Installation** - Smart detection, progress tracking, config backups
 - ⌨️ **Natural Text Editing** - Word/line navigation in terminal
-- 🎨 **Tokyo Night Theme** - Consistent theming across all tools
+- 🎨 **Clean Dark Theme** - Professional, readable appearance
