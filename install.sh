@@ -127,20 +127,12 @@ defaults write -g InitialKeyRepeat -float 10.0
 defaults write -g KeyRepeat -float 1.0
 
 # Map Caps Lock to Option key
-echo "Configuring Caps Lock to Option key mapping..."
-# Get the keyboard vendor and product IDs
-keyboard_ids=$(ioreg -n IOHIDKeyboard -r | grep -E '(VendorID|ProductID)' | awk '/"VendorID"/{vid=$3} /"ProductID"/{pid=$3; print vid"-"pid}')
-
-if [ -n "$keyboard_ids" ]; then
-    for id in $keyboard_ids; do
-        # Set Caps Lock (key code 30064771129) to Option (key code 30064771296)
-        defaults -currentHost write -g "com.apple.keyboard.modifiermapping.$id-0" -array-add '{"HIDKeyboardModifierMappingDst"=30064771296;"HIDKeyboardModifierMappingSrc"=30064771129;}'
-    done
-    success "Caps Lock mapped to Option key"
-else
-    echo -e "${YELLOW}⚠️  Could not detect keyboard - you'll need to map Caps Lock to Option manually${NC}"
-    echo -e "${YELLOW}   Go to: System Preferences > Keyboard > Modifier Keys > Caps Lock: Option${NC}"
-fi
+echo -e "${YELLOW}📌 Note: Caps Lock to Option mapping requires manual configuration${NC}"
+echo -e "${BLUE}==>${NC} After installation, go to:"
+echo "   System Settings > Keyboard > Keyboard Shortcuts > Modifier Keys"
+echo "   Set Caps Lock key to: ⌥ Option"
+echo ""
+echo "This makes word navigation much easier with Option+Arrow keys!"
 
 echo ""
 echo -e "${YELLOW}💡 Note: Keyboard changes will be active after you log out/in${NC}"

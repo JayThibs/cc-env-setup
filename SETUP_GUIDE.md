@@ -78,11 +78,9 @@ defaults write -g InitialKeyRepeat -float 10.0  # Faster initial repeat
 defaults write -g KeyRepeat -float 1.0          # Faster continuous repeat
 
 # Map Caps Lock to Option key for better terminal navigation
-# Get keyboard IDs and configure modifier mapping
-keyboard_ids=$(ioreg -n IOHIDKeyboard -r | grep -E '(VendorID|ProductID)' | awk '/"VendorID"/{vid=$3} /"ProductID"/{pid=$3; print vid"-"pid}')
-for id in $keyboard_ids; do
-    defaults -currentHost write -g "com.apple.keyboard.modifiermapping.$id-0" -array-add '{"HIDKeyboardModifierMappingDst"=30064771296;"HIDKeyboardModifierMappingSrc"=30064771129;}'
-done
+# This must be done manually in System Settings:
+# System Settings > Keyboard > Keyboard Shortcuts > Modifier Keys
+# Set Caps Lock key to: ⌥ Option
 
 # Note: Log out and back in for these to take effect
 # Or set manually: System Preferences > Keyboard > fastest settings & modifier keys
