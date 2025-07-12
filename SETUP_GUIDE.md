@@ -8,26 +8,32 @@ This document contains EVERYTHING needed to set up the ultimate Claude Code mult
 
 1. **Multiple Claude Code Instances**: Run several AI assistants simultaneously in split panes
 2. **Intelligent Auto-Suggestions**: Commands appear in gray as you type - press → to accept
-3. **Beautiful Terminal**: GPU-accelerated Wezterm with Tokyo Night theme
+3. **Beautiful Terminal**: Ultra-fast Ghostty terminal with Tokyo Night theme
 4. **Session Management**: tmux for persistent sessions that survive restarts
 5. **Smart Navigation**: Jump between directories, search files, and navigate history effortlessly
+6. **Unlimited History**: Never lose a command with 999 million line history
+7. **Modern CLI Tools**: fzf, ripgrep, fd, bat, eza, zoxide for blazing fast workflows
 
 ## 📋 Complete Feature List
 
 ### Terminal Features
-- **Wezterm**: GPU-accelerated, ligature support, true colors
-- **Auto-suggestions**: Real-time command predictions based on history
+- **Ghostty**: Ultra-fast native terminal written in Zig by Mitchell Hashimoto
+- **Auto-suggestions**: Real-time command predictions based on unlimited history
 - **Syntax highlighting**: Valid commands in green, invalid in red
-- **Smart completions**: Case-insensitive, fuzzy matching
-- **Enhanced history**: 50,000 command history with instant search
+- **Smart completions**: Case-insensitive, fuzzy matching with modern CLI tools
+- **Unlimited History**: 999 million command history with instant search
+- **Natural Text Editing**: Option+Arrow for word jumping, Cmd+Arrow for line navigation
 
 ### Productivity Tools
 - **tmux**: Terminal multiplexer with custom keybindings
-- **fzf**: Fuzzy finder for files, directories, and history
-- **ripgrep**: Ultra-fast text search
-- **zoxide**: Smart cd that learns your habits
-- **eza**: Beautiful ls replacement with icons
-- **bat**: Syntax-highlighted cat replacement
+- **fzf**: Fuzzy finder with previews for files, directories, and history
+- **ripgrep**: Ultra-fast text search (alias: `rg`)
+- **zoxide**: Smart cd that learns your habits (alias: `z`)
+- **eza**: Beautiful ls replacement with icons and tree view
+- **bat**: Syntax-highlighted cat replacement with line numbers
+- **fd**: Modern find replacement that respects .gitignore
+- **tree**: Directory structure visualization
+- **htop**: Interactive process monitor
 
 ### Claude Code Integration
 - Quick launch aliases: `cc`, `ccnew`, `ccvsplit`, `cchsplit`
@@ -38,8 +44,21 @@ This document contains EVERYTHING needed to set up the ultimate Claude Code mult
 
 ```bash
 # For a fresh macOS system, run:
-bash <(curl -fsSL https://raw.githubusercontent.com/JayThibs/cc-env-setup/main/install.sh)
+./install.sh
+
+# Or clone first:
+git clone https://github.com/JayThibs/cc-env-setup.git
+cd cc-env-setup
+./install.sh
 ```
+
+**What the installer does:**
+- ✅ **Smart detection** - skips already installed packages
+- ✅ **Automated Ghostty installation** - tries Homebrew then direct download
+- ✅ **Progress tracking** - shows [3/11] step progress
+- ✅ **Config backups** - saves existing configs with timestamps
+- ✅ **Pre-flight checks** - validates system requirements
+- ✅ **One password prompt** - maintains sudo session throughout
 
 ## 📝 Step-by-Step Manual Installation
 
@@ -54,10 +73,11 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 ### 2. Configure macOS Settings
 ```bash
-# Faster key repeat for better navigation
-defaults write -g InitialKeyRepeat -float 10.0
-defaults write -g KeyRepeat -float 1.0
-# Log out and back in for these to take effect
+# Faster key repeat for better navigation (ultra-fast settings)
+defaults write -g InitialKeyRepeat -float 10.0  # Faster initial repeat
+defaults write -g KeyRepeat -float 1.0          # Faster continuous repeat
+# Note: Log out and back in for these to take effect
+# Or set manually: System Preferences > Keyboard > fastest settings
 ```
 
 ### 3. Install All Required Packages
@@ -80,9 +100,10 @@ brew "ripgrep"
 brew "fd"
 brew "bat"
 brew "jq"
+brew "tree"
+brew "htop"
 
-# Terminal and font
-cask "wezterm"
+# Font (Ghostty installed separately)
 cask "font-meslo-lg-nerd-font"
 EOF
 
@@ -130,7 +151,7 @@ cd -
 
 ### 8. Create ALL Configuration Files
 
-#### ~/.zshrc (COMPLETE VERSION WITH AUTO-SUGGESTIONS)
+#### ~/.zshrc (COMPLETE VERSION WITH UNLIMITED HISTORY AND MODERN FZF)
 ```bash
 cat > ~/.zshrc << 'ZSHRC_EOF'
 # Enable Powerlevel10k instant prompt
@@ -175,17 +196,21 @@ bindkey '^[[1;5C' forward-word             # Ctrl+Right (alternate)
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
-# History settings
+# History - Unlimited (practical limit)
 HISTFILE="$HOME/.zsh_history"
-HISTSIZE=50000
-SAVEHIST=50000
-setopt EXTENDED_HISTORY
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_FIND_NO_DUPS
-setopt HIST_REDUCE_BLANKS
+HISTSIZE=999999999
+SAVEHIST=$HISTSIZE
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format
+setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits
+setopt SHARE_HISTORY             # Share history between all sessions
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again
+setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate
+setopt HIST_FIND_NO_DUPS         # Do not display a line previously found
+setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space
+setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry
+setopt HIST_VERIFY               # Don't execute immediately upon history expansion
 
 # Better completion
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
@@ -193,13 +218,32 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' special-dirs true
 
-# FZF configuration
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+# FZF Configuration - Modern setup with all features
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --strip-cwd-prefix'
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --ansi --tabstop=1 --exit-0'
 
-# Aliases
+# CTRL-T: Paste the selected files and directories onto the command-line
+export FZF_CTRL_T_COMMAND='fd --type f --hidden --follow --exclude .git --strip-cwd-prefix'
+export FZF_CTRL_T_OPTS="
+  --walker-skip .git,node_modules,target
+  --preview 'bat -n --color=always {}'
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+
+# CTRL-R: Paste the selected command from history onto the command-line  
+export FZF_CTRL_R_OPTS="
+  --preview 'echo {}' --preview-window up:3:hidden:wrap
+  --bind 'ctrl-/:toggle-preview'
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --color header:italic
+  --header 'Press CTRL-Y to copy command into clipboard'"
+
+# ALT-C: cd into the selected directory
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git --strip-cwd-prefix'
+export FZF_ALT_C_OPTS="
+  --walker-skip .git,node_modules,target
+  --preview 'tree -C {} | head -200'"
+
+# Modern CLI Aliases
 alias ls="eza --icons"
 alias ll="eza -la --icons"
 alias la="eza -a --icons"
@@ -209,30 +253,49 @@ alias cat="bat"
 alias grep="rg"
 alias find="fd"
 alias vim="nvim"
+alias top="htop"
 
-# Claude Code aliases
+# Git Aliases (productivity boosters)
+alias g="git"
+alias gs="git status"
+alias gc="git commit"
+alias gca="git commit -a"
+alias gcm="git commit -m"
+alias gp="git push"
+alias gl="git pull"
+alias gd="git diff"
+alias ga="git add"
+alias gaa="git add ."
+alias gb="git branch"
+alias gco="git checkout"
+
+# Tmux Aliases
+alias ta="tmux attach -t"
+alias ts="tmux new-session -s"
+alias tl="tmux list-sessions"
+alias tk="tmux kill-session -t"
+
+# Claude Code helpers
 alias cc="claude code"
 alias ccnew="tmux split-window -h 'claude code'"
 alias ccvsplit="tmux split-window -h 'claude code'"
 alias cchsplit="tmux split-window -v 'claude code'"
-alias ccwindow="tmux new-window -n 'Claude Code' 'claude code'"
 alias cc4="~/cc-multi.sh"
-
-# Git aliases
-alias g="git"
-alias gs="git status"
-alias gc="git commit"
-alias gp="git push"
-alias gl="git pull"
-
-# tmux aliases
-alias ta="tmux attach -t"
-alias ts="tmux new-session -s"
-alias tl="tmux list-sessions"
 
 # Initialize tools
 eval "$(zoxide init zsh)"
+
+# FZF - Modern shell integration with key bindings and completion
 source <(fzf --zsh)
+
+# Custom FZF completion for common commands
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
 
 # Load Powerlevel10k
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -242,64 +305,61 @@ source <(fzf --zsh)
 ZSHRC_EOF
 ```
 
-#### ~/.wezterm.lua
+#### ~/.config/ghostty/config
 ```bash
-cat > ~/.wezterm.lua << 'WEZTERM_EOF'
-local wezterm = require 'wezterm'
-local config = wezterm.config_builder()
+mkdir -p ~/.config/ghostty
+cat > ~/.config/ghostty/config << 'GHOSTTY_EOF'
+# Claude Code Ultimate Ghostty Configuration
 
--- Font (MUST be exact name)
-config.font = wezterm.font('MesloLGS Nerd Font')
-config.font_size = 16.0
+# Font
+font-family = "MesloLGS Nerd Font"
+font-size = 16
 
--- Appearance
-config.window_decorations = "RESIZE"
-config.window_background_opacity = 0.95
-config.macos_window_background_blur = 20
-config.color_scheme = 'Tokyo Night'
-config.hide_tab_bar_if_only_one_tab = true
+# Appearance
+theme = tokyo-night
+window-decoration = false
+window-padding-x = 10
+window-padding-y = 10
+background-opacity = 0.95
+macos-window-shadow = true
 
--- Performance
-config.max_fps = 120
-config.animation_fps = 60
-config.cursor_blink_rate = 500
+# Colors (Tokyo Night theme)
+foreground = c0caf5
+background = 1a1b26
+cursor-color = c0caf5
+selection-foreground = c0caf5
+selection-background = 33467c
 
--- Natural text editing keybindings
-config.keys = {
-  -- Word navigation
-  { key = 'LeftArrow', mods = 'OPT', action = wezterm.action.SendString '\x1b[1;5D' },
-  { key = 'RightArrow', mods = 'OPT', action = wezterm.action.SendString '\x1b[1;5C' },
-  
-  -- Line navigation
-  { key = 'LeftArrow', mods = 'CMD', action = wezterm.action.SendString '\x01' },
-  { key = 'RightArrow', mods = 'CMD', action = wezterm.action.SendString '\x05' },
-  
-  -- Word deletion
-  { key = 'Backspace', mods = 'OPT', action = wezterm.action.SendString '\x17' },
-  { key = 'Delete', mods = 'OPT', action = wezterm.action.SendString '\x1b[3;5~' },
-  
-  -- Line deletion
-  { key = 'Backspace', mods = 'CMD', action = wezterm.action.SendString '\x15' },
-  { key = 'Delete', mods = 'CMD', action = wezterm.action.SendString '\x0b' },
-}
+# ANSI colors
+palette = 0=#15161e
+palette = 1=#f7768e
+palette = 2=#9ece6a
+palette = 3=#e0af68
+palette = 4=#7aa2f7
+palette = 5=#bb9af7
+palette = 6=#7dcfff
+palette = 7=#a9b1d6
+palette = 8=#414868
+palette = 9=#f7768e
+palette = 10=#9ece6a
+palette = 11=#e0af68
+palette = 12=#7aa2f7
+palette = 13=#bb9af7
+palette = 14=#7dcfff
+palette = 15=#c0caf5
 
--- Scrollback
-config.scrollback_lines = 10000
+# Terminal
+scrollback-limit = 10000
+confirm-close-surface = false
 
--- Window padding
-config.window_padding = {
-  left = 10,
-  right = 10,
-  top = 10,
-  bottom = 10,
-}
-
--- Initial size
-config.initial_cols = 120
-config.initial_rows = 40
-
-return config
-WEZTERM_EOF
+# Key bindings for natural text editing
+keybind = alt+left=text:\x1b[1;5D
+keybind = alt+right=text:\x1b[1;5C
+keybind = cmd+left=text:\x01
+keybind = cmd+right=text:\x05
+keybind = alt+backspace=text:\x17
+keybind = cmd+backspace=text:\x15
+GHOSTTY_EOF
 ```
 
 #### ~/.tmux.conf.local
@@ -413,12 +473,24 @@ chmod +x ~/cc-multi.sh
 $(brew --prefix)/opt/fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
 ```
 
-### 11. Configure Claude Code for Multi-line Support
+### 11. Install Ghostty
+```bash
+# Option 1: Official method (recommended)
+# Visit https://ghostty.org/ and download the .dmg
+# Drag Ghostty.app to Applications folder
+
+# Option 2: Community Homebrew cask
+brew install --cask ghostty
+
+# Option 3: Let the install script try both automatically
+```
+
+### 12. Configure Claude Code for Multi-line Support
 ```bash
 claude code /terminal-setup
 ```
 
-### 12. Change Default Shell to ZSH
+### 13. Change Default Shell to ZSH
 ```bash
 # Add zsh to allowed shells
 sudo sh -c "echo $(which zsh) >> /etc/shells"
@@ -429,13 +501,20 @@ chsh -s $(which zsh)
 
 ## 🔑 Critical Key Bindings Reference
 
-### Auto-Suggestions (MOST IMPORTANT!)
+### Auto-Suggestions & FZF (MOST IMPORTANT!)
 - `→` - Accept the gray suggestion
 - `Ctrl+→` - Accept one word only
 - `Tab` - Show completion menu
 - `Shift+Tab` - Alternative accept
 - `↑/↓` - Search matching history
 - `Esc` - Clear suggestion
+
+### FZF Power Features
+- `Ctrl+T` - Find files and directories (with preview)
+- `Ctrl+R` - Search unlimited history (with copy to clipboard)
+- `Alt+C` - Navigate directories (with tree preview)
+- `Ctrl+Y` - Copy command from history to clipboard (within Ctrl+R)
+- `**<Tab>` - Fuzzy completion: `vim **<Tab>`, `cd **<Tab>`, `kill **<Tab>`
 
 ### tmux Controls (Prefix: Ctrl+A)
 - `Ctrl+A |` - Split vertically
@@ -458,10 +537,10 @@ chsh -s $(which zsh)
 
 ## 🚨 Common Issues and Solutions
 
-### Font Not Loading in Wezterm
+### Font Not Loading in Ghostty
 ```bash
-# The font name MUST be exact:
-config.font = wezterm.font('MesloLGS Nerd Font')
+# The font name MUST be exact in ~/.config/ghostty/config:
+font-family = "MesloLGS Nerd Font"
 # NOT 'MesloLGS NF' or any other variation
 ```
 
@@ -487,59 +566,77 @@ config.font = wezterm.font('MesloLGS Nerd Font')
 Run these commands to verify everything is working:
 
 ```bash
-# Test auto-suggestions
+# Test auto-suggestions  
 echo "test" # Type 'ec' and you should see 'echo "test"' in gray
 
-# Test history substring search
+# Test unlimited history and substring search
 echo "substring test" # Then type 'test' and press up arrow - should find this
 
-# Test natural text editing in terminal
+# Test natural text editing in Ghostty
 # Type a long command, then use Option+Arrow to jump words
 
-# Test auto-ls
-cd /tmp # Should automatically list directory contents
+# Test auto-ls with eza
+cd /tmp # Should automatically list directory contents with icons
 
-# Test rl command
-rl # Should re-list current directory with icons
+# Test modern CLI tools
+ls # Should show eza with icons
+ll # Should show detailed list with icons
+bat README.md # Should show syntax-highlighted file
+rg "search term" # Should use ripgrep for fast search
+fd filename # Should use fd instead of find
+z ~/Documents # Should use zoxide for smart directory jumping
+
+# Test FZF power features
+Ctrl+T # Should open file finder with bat preview
+Ctrl+R # Should open history search with copy-to-clipboard (Ctrl+Y)
+Alt+C # Should open directory navigator with tree preview
+vim **<Tab> # Should trigger fuzzy completion
 
 # Test tmux
 tmux new -s test
 # Press Ctrl+A | to split
 # Press Ctrl+H and Ctrl+L to navigate
 
-# Test fuzzy finding
-Ctrl+T # Should open file finder
-Ctrl+R # Should open history search with substring matching
+# Test git aliases
+gs # Should run git status
+gc # Should run git commit
+gp # Should run git push
 
-# Test aliases
+# Test Claude Code
 cc # Should launch Claude Code
-z # Should show zoxide is working
-ls # Should show icons
+cc4 # Should launch 4 instances in 2x2 grid
 ```
 
 ## 🎯 Final Checklist
 
-- [ ] Wezterm opens without font errors
-- [ ] Commands appear in gray as you type
+- [ ] Ghostty opens without font errors
+- [ ] Commands appear in gray as you type (unlimited history)
 - [ ] Right arrow accepts suggestions
 - [ ] Option+Arrow jumps by word in terminal
 - [ ] Cmd+Arrow goes to line start/end
-- [ ] cd automatically shows directory contents
-- [ ] rl command re-lists directory
-- [ ] History search finds substrings anywhere
+- [ ] cd automatically shows directory contents with eza icons
+- [ ] Modern CLI tools work: `ls`, `ll`, `cat`, `grep`, `find` use new tools
+- [ ] FZF features work: Ctrl+T, Ctrl+R, Alt+C with previews
+- [ ] History search finds substrings anywhere in unlimited history
 - [ ] Ctrl+A works as tmux prefix
 - [ ] Can split panes with Ctrl+A | and -
 - [ ] Can navigate with Ctrl+H/J/K/L
+- [ ] Git aliases work: `gs`, `gc`, `gp`
 - [ ] `cc` launches Claude Code
+- [ ] `cc4` launches 4 instances in 2x2 grid
 - [ ] Powerlevel10k shows git status
+- [ ] Keyboard repeat faster after logout/login
 
 ## 💡 Pro Tips
 
-1. **Build History**: The more commands you use, the better predictions
-2. **Use Aliases**: `cc`, `ccnew`, etc. for quick Claude Code launches
-3. **Smart Jumps**: After visiting directories, use `z partial-name`
-4. **Session Names**: Use descriptive tmux session names
-5. **Persistent Sessions**: tmux sessions survive terminal restarts
+1. **Build History**: The more commands you use, the better predictions (unlimited storage!)
+2. **Use Modern Aliases**: `gs` for git status, `ll` for detailed listing, `z` for smart cd
+3. **FZF Power**: Use Ctrl+T for files, Ctrl+R for history, Alt+C for directories
+4. **Smart Jumps**: After visiting directories, use `z partial-name` with zoxide
+5. **Session Names**: Use descriptive tmux session names
+6. **Persistent Sessions**: tmux sessions survive terminal restarts
+7. **Git Workflow**: Use `gaa` (git add .), `gcm "message"` (git commit -m), `gp` (git push)
+8. **File Operations**: Use `fd` instead of find, `rg` instead of grep, `bat` instead of cat
 
 ## 🚀 Quick Start for Multiple Claude Code
 
@@ -559,4 +656,15 @@ cc                    # Third instance
 Ctrl+H/J/K/L
 ```
 
-This completes the ENTIRE setup. Save this document for future reference!
+This completes the ENTIRE modern setup with Ghostty, unlimited history, and fzf power features. Save this document for future reference!
+
+## 🆕 What's New in This Version
+
+- ⚡ **Ghostty Terminal** - Ultra-fast native terminal by Mitchell Hashimoto
+- 📜 **Unlimited History** - 999 million commands with advanced options
+- 🔍 **Modern FZF Integration** - File previews, history search, directory navigation
+- 🛠️ **Enhanced CLI Tools** - fd, ripgrep, bat, eza, tree, htop
+- 🎯 **Smart Aliases** - Productivity-focused git, tmux, and CLI shortcuts
+- 🔄 **Automated Installation** - Smart detection, progress tracking, config backups
+- ⌨️ **Natural Text Editing** - Word/line navigation in terminal
+- 🎨 **Tokyo Night Theme** - Consistent theming across all tools
