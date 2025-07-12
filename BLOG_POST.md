@@ -84,6 +84,7 @@ cd cc-env-setup
 # Multiple AI instances
 cc4                    # Launch 4 Claude Code instances
 cc                     # Launch single Claude Code
+yolo                   # Launch Claude Code with dangerous permissions skip
 Ctrl+A |               # Split vertically  
 Ctrl+A -               # Split horizontally
 Ctrl+H/J/K/L           # Navigate between panes

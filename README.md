@@ -75,6 +75,7 @@ The installer creates these configuration files in your home directory:
 ### Quick Launchers
 - `cc` - Launch Claude Code
 - `cc4` - Launch 4 Claude Code instances in a grid
+- `yolo` - Launch Claude Code with dangerous permissions skip
 - `nvim` or `vim` - Open neovim editor
 - `rl <file>` - Copy absolute file path to clipboard
 

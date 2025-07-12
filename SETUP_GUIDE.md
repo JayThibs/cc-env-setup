@@ -281,6 +281,7 @@ alias ccnew="tmux split-window -h 'claude code'"
 alias ccvsplit="tmux split-window -h 'claude code'"
 alias cchsplit="tmux split-window -v 'claude code'"
 alias cc4="~/cc-multi.sh"
+alias yolo="claude --dangerously-skip-permissions"
 
 # Initialize tools
 eval "$(zoxide init zsh)"
@@ -517,6 +518,7 @@ chsh -s $(which zsh)
 - `cc` - Launch Claude Code
 - `ccnew` - Split and launch Claude Code
 - `cc4` or `~/cc-multi.sh` - Launch 4 instances
+- `yolo` - Launch Claude Code with dangerous permissions skip
 - `z dirname` - Jump to directory
 - `Ctrl+T` - Fuzzy find files
 - `Ctrl+R` - Fuzzy search history
@@ -591,6 +593,7 @@ gp # Should run git push
 # Test Claude Code
 cc # Should launch Claude Code
 cc4 # Should launch 4 instances in 2x2 grid
+yolo # Should launch Claude Code with dangerous permissions skip
 ```
 
 ## 🎯 Final Checklist
@@ -610,6 +613,7 @@ cc4 # Should launch 4 instances in 2x2 grid
 - [ ] Git aliases work: `gs`, `gc`, `gp`
 - [ ] `cc` launches Claude Code
 - [ ] `cc4` launches 4 instances in 2x2 grid
+- [ ] `yolo` launches Claude Code with dangerous permissions skip
 - [ ] Powerlevel10k shows git status
 - [ ] Keyboard repeat faster after logout/login
 
