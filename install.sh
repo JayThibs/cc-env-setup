@@ -126,12 +126,28 @@ status "Configuring macOS keyboard settings..."
 defaults write -g InitialKeyRepeat -float 10.0
 defaults write -g KeyRepeat -float 1.0
 
+# Map Caps Lock to Option key
+echo "Configuring Caps Lock to Option key mapping..."
+# Get the keyboard vendor and product IDs
+keyboard_ids=$(ioreg -n IOHIDKeyboard -r | grep -E '(VendorID|ProductID)' | awk '/"VendorID"/{vid=$3} /"ProductID"/{pid=$3; print vid"-"pid}')
+
+if [ -n "$keyboard_ids" ]; then
+    for id in $keyboard_ids; do
+        # Set Caps Lock (key code 30064771129) to Option (key code 30064771296)
+        defaults -currentHost write -g "com.apple.keyboard.modifiermapping.$id-0" -array-add '{"HIDKeyboardModifierMappingDst"=30064771296;"HIDKeyboardModifierMappingSrc"=30064771129;}'
+    done
+    success "Caps Lock mapped to Option key"
+else
+    echo -e "${YELLOW}⚠️  Could not detect keyboard - you'll need to map Caps Lock to Option manually${NC}"
+    echo -e "${YELLOW}   Go to: System Preferences > Keyboard > Modifier Keys > Caps Lock: Option${NC}"
+fi
+
 echo ""
-echo -e "${YELLOW}💡 Note: Keyboard repeat speed will be faster after you log out/in${NC}"
-echo -e "${YELLOW}   Or set manually: System Preferences > Keyboard > fastest settings${NC}"
+echo -e "${YELLOW}💡 Note: Keyboard changes will be active after you log out/in${NC}"
+echo -e "${YELLOW}   Or set manually: System Preferences > Keyboard > fastest settings & modifier keys${NC}"
 echo ""
 
-success "Keyboard configured for faster repeat"
+success "Keyboard configured for faster repeat and Caps Lock to Option"
 
 # Step 3: Install packages (only if not already installed)
 status "Checking and installing terminal tools..."
@@ -889,8 +905,9 @@ echo "• Ctrl+Y - Copy command from history to clipboard"
 echo "• Fuzzy completion: vim **<Tab>, cd **<Tab>, kill **<Tab>"
 echo ""
 echo -e "${YELLOW}Remember:${NC}"
-echo "• 🔄 Log out and back in for FASTER KEYBOARD REPEAT"
-echo "• 💡 Or manually: System Preferences > Keyboard > Set to fastest"
+echo "• 🔄 Log out and back in for FASTER KEYBOARD REPEAT & CAPS LOCK→OPTION"
+echo "• 💡 Or manually: System Preferences > Keyboard > Set to fastest & modifier keys"
+echo "• ⌨️  Caps Lock is now Option for easier word navigation in terminal"
 echo "• 🔌 First nvim launch installs plugins (be patient)"
 echo ""
 echo "Enjoy your multi-instance Claude Code setup with Ghostty and neovim! 🚀"

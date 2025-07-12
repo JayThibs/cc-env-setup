@@ -46,7 +46,7 @@ The installer creates these configuration files in your home directory:
 
 ### Ghostty Natural Text Editing
 - `Cmd+Left/Right` - Jump to beginning/end of line
-- `Option+Left/Right` - Navigate by word
+- `Option+Left/Right` - Navigate by word (Caps Lock mapped to Option for easy access)
 - `Cmd+Backspace` - Delete to beginning of line
 - `Option+Backspace` - Delete word backward
 

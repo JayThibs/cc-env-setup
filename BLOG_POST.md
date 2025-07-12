@@ -74,7 +74,7 @@ cd cc-env-setup
 ```
 
 **2. After installation:**
-- Log out/in for faster keyboard repeat (or set manually in System Preferences)
+- Log out/in for faster keyboard repeat and Caps Lock→Option mapping (or set manually in System Preferences)
 - Open Ghostty terminal
 - Run the Powerlevel10k configuration wizard
 - Start using: `cc4` for 4 Claude Code instances
